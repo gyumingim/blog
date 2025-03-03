@@ -1,0 +1,48 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="../static/globals.css" />
+</head>
+<body>
+    <header >
+        <nav>
+            <a href="/">
+                <h2 style="display: inline-block;">김규민</h2>
+                <span>gyumingim</span>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <a href="/">
+            <h3 style="margin-bottom: .5rem;">
+                About ↘
+            </h3>
+        </a>
+        <a href="work">
+            <h3 style="margin-bottom: .5rem;">
+                Works ↘
+            </h3>
+        </a>
+        <h3>
+            Articles
+        </h3>
+        
+        <section>
+            {% for article in data %}
+                <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ loop.index }}">
+                    <span>
+                        <b>{{ article.title }}:</b>
+                    </span>
+                    <span>
+                        {{ article.desc }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ article.date }}
+                    </time>
+                </a>
+            {% endfor %}
+        </section>
+    </main>
+    <footer style="font-size: .8rem; color: #767676;">
+        © 2025 김규민
+    </footer>
+</body>
