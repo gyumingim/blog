@@ -19,11 +19,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("blog-app")
 
-# 환경 변수 설정 (배포 환경에 맞게 조정 가능)
-PORT = int(os.getenv("PORT", 10000))
-HOST = os.getenv("HOST", "0.0.0.0")  # 0.0.0.0은 모든 네트워크 인터페이스에서 접근 가능
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-
 templates = Jinja2Templates(directory="templates")
 
 # 모든 JSON 파일을 순서대로 읽기
@@ -115,10 +110,7 @@ def article_detail(article_number: int):  # 함수명 의미 명확하게 수정
 # 서버 실행 코드 (직접 실행 시에만 작동)
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
-        host=HOST,
-        port=PORT,
-        reload=DEBUG,  # 개발 모드에서만 자동 리로드 활성화
-        workers=4,     # 프로덕션에서는 CPU 코어 수에 맞게 조정
-        access_log=DEBUG  # 프로덕션에서는 접근 로그 비활성화 가능
+        app,
+        host="0.0.0.0",
+        port=8000,
     )
