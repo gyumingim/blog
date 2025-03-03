@@ -5,6 +5,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 import json
+import os
+import re
 import uvicorn
 
 templates = Jinja2Templates(directory="templates")
@@ -22,17 +24,17 @@ try:
     json_files = [f for f in os.listdir(articles_dir) if f.endswith('.json')]
     # 파일명 기준으로 정렬 (1.json, 2.json, ... 10.json 순서로)
     json_files.sort(key=natural_sort_key)
-
+    print("try문 실행")
     # 각 JSON 파일 읽기
     for json_file in json_files:
+        print("json_file", json_file)
         file_path = os.path.join(articles_dir, json_file)
         with open(file_path, "r", encoding="utf-8") as file:
             article_data = json.load(file)
             articles_data.append(article_data)
 
-    logger.info(f"총 {len(articles_data)}개의 글을 불러왔습니다.")
 except Exception as e:
-    logger.error(f"글 로딩 중 오류 발생: {str(e)}")
+    print("error", e)
 
 app = FastAPI()
 
@@ -58,14 +60,11 @@ def work():  # 함수명 중복 수정
 
 @app.get("/article")
 def article_list():  # 함수명 의미 명확하게 수정
+    print(articles_data)
     return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data})
 
 @app.get("/article/{article_number}")
 def article_detail(article_number: int):  # 함수명 의미 명확하게 수정
-    # 유효성 검사 강화
-    if article_number <= 0 or article_number > len(articles_data):
-        raise HTTPException(status_code=404, detail="Article not found")
-    
     # 변수 선언
     back_data = None
     front_data = None
