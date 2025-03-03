@@ -5,19 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 import json
-import os
-import re
-import logging
 import uvicorn
-from typing import Optional
-
-# 로깅 설정
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger("blog-app")
 
 templates = Jinja2Templates(directory="templates")
 
@@ -46,13 +34,7 @@ try:
 except Exception as e:
     logger.error(f"글 로딩 중 오류 발생: {str(e)}")
 
-app = FastAPI(
-    title="블로그 API",
-    description="블로그 서비스를 위한 API",
-    version="1.0.0",
-    docs_url="/api/docs" if DEBUG else None,  # 프로덕션에서는 API 문서 비활성화
-    redoc_url="/api/redoc" if DEBUG else None
-)
+app = FastAPI()
 
 # CORS 설정 - 배포 시 실제 도메인으로 변경 필요
 app.add_middleware(
