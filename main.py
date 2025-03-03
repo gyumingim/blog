@@ -41,7 +41,7 @@ app = FastAPI()
 # CORS 설정 - 배포 시 실제 도메인으로 변경 필요
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 프로덕션에서는 특정 도메인만 허용하도록 변경 (예: ["https://yourdomain.com"])
+    allow_origins=["*"],  # 프로덕션에서는 특정 출처로 설정하세요
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,6 +51,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 @app.get("/")
+@app.head("/")
 def root():
     return FileResponse("templates/about.html")
 
