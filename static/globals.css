@@ -4,9 +4,21 @@
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     margin: 0;
 }
-
+ 
 html {
-    font-size: 36px !important;
+    font-size: 16px !important;
+}
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 36px !important;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    html {
+        font-size: 16px !important;
+    }
 }
 
 a {
