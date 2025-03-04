@@ -15,6 +15,9 @@ templates = Jinja2Templates(directory="templates")
 articles_dir = "./templates/articles"
 articles_data = []
 
+# HTML 파일 내용을 저장할 딕셔너리 추가
+articles_html = {}
+
 # 숫자 순서대로 정렬하기 위한 함수
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
@@ -32,6 +35,16 @@ try:
         with open(file_path, "r", encoding="utf-8") as file:
             article_data = json.load(file)
             articles_data.append(article_data)
+            
+        # 해당 번호의 HTML 파일이 있는지 확인하고 내용 불러오기
+        html_filename = json_file.replace('.json', '.html')
+        html_path = os.path.join(articles_dir, html_filename)
+        if os.path.exists(html_path):
+            with open(html_path, "r", encoding="utf-8") as html_file:
+                # 파일 번호를 키로 사용 (확장자 제거)
+                article_number = int(os.path.splitext(json_file)[0])
+                articles_html[article_number] = html_file.read()
+                print(f"HTML 파일 로드: {html_filename}")
 
 except Exception as e:
     print("error", e)
@@ -69,6 +82,23 @@ def article_detail(article_number: int):  # 함수명 의미 명확하게 수정
     # 변수 선언
     back_data = None
     front_data = None
+    
+    # 유효성 검사 추가
+    if article_number <= 0 or article_number > len(articles_data):
+        raise HTTPException(status_code=404, detail="Article not found")
+    
+    # HTML 내용 가져오기
+    contents = articles_html.get(article_number, "")
+    if not contents:
+        # HTML 파일이 없으면 직접 로드 시도
+        html_path = os.path.join(articles_dir, f"{article_number}.html")
+        try:
+            with open(html_path, "r", encoding="utf-8") as html_file:
+                contents = html_file.read()
+                # 캐시에 저장
+                articles_html[article_number] = contents
+        except FileNotFoundError:
+            contents = "<p>HTML 내용이 없습니다.</p>"
 
     # 이전 글 데이터
     if article_number-2 >= 0:
@@ -82,6 +112,7 @@ def article_detail(article_number: int):  # 함수명 의미 명확하게 수정
         "article_one.html", 
         {
             "request": {}, 
+            "html": contents,
             "data": articles_data[article_number-1],
             "back": back_data,
             "front": front_data,
