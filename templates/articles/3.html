@@ -1,0 +1,138 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="../static/globals.css">
+요즘 원티드 들어가서 채용공고를 계속 둘러보고 있다. 왜 원티드에서 보냐.. 잡코리아나 다른 곳은 임베디드 개발자가 없고 프론트, 백엔드 개발자만 분류되어 있기 때문이다.. 암튼 공고를 계속 보다보면 필수 조건에
+RTOS 개발 경험이 적혀있는 것을 자주 보았다. RTOS는 MCU에서 비동기 처리를 하기 위한 수단이라고 알고 있다. 암튼 이렇게 중요한 RTOS를 실전으로 써보기 위해 아두이노를 사용할 것이다.
+
+<br>
+이거 보면서 할거다
+<br>
+<a style="color: #005ccc;" href="https://m.blog.naver.com/simjk98/221884052885">https://m.blog.naver.com/simjk98/221884052885</a>
+<div></div>
+<a style="color: #005ccc;" href="https://m.blog.naver.com/simjk98/221884052885">[아두이노강좌]아두이노에서 MultiTasking 수행하기-Using FreeRTOS</a>
+
+<br>
+
+RTOS 써서 좋은 점은
+특정 작업의 지연으로 다른 작업이 지연되는 것을 막을 수 있다. 즉 비동기 처리가 가능하다는 것이다.
+그리고 Task 마다 우선순위를 다르게 부여해서 중요한 Task를 먼저 실행시킬 수도 있다.
+
+<br>
+FreeRTOS 설치해보자
+아두이노에는 많은 FreeRTOS가 있다. 여기서는 리차드 베리가 만든 FreeRTOS를 쓴다
+설치 ㄱㄱ
+하려고 했는데 리차드 베리의 FreeRTOS가 안보여저 필립의 FreeRTOS를 설치했다
+<br>
+설치에 성공했다면 예제를 열어서 AnalogRead_DigitalRead 코드를 보자
+<br>
+<br>
+<pre style="font-family:Roboto Mono;color: rgb(36, 41, 46); background-color: rgb(255, 255, 255); font-weight: 400; ">
+    <span style="color: rgb(0, 92, 197); font-weight: 400;">#<span style="color: rgb(215, 58, 73); font-weight: 400;">include</span> <span style="color: rgb(3, 47, 98); font-weight: 400;">&lt;Arduino_FreeRTOS.h&gt;</span>;</span>
+    <span style="color: rgb(0, 92, 197); font-weight: 400;">#<span style="color: rgb(215, 58, 73); font-weight: 400;">include</span> <span style="color: rgb(3, 47, 98); font-weight: 400;">&lt;semphr.h&gt;</span>;  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어(또는 플래그)를 위한 FreeRTOS 함수를 추가합니다.</span></span>
+    
+    <span style="color: rgb(106, 115, 125); font-weight: 400;">// 직렬 포트를 관리하기 위해 사용할 뮤텍스 세마포어 핸들을 선언합니다.</span>
+    <span style="color: rgb(106, 115, 125); font-weight: 400;">// 한 번에 하나의 태스크만 이 리소스에 접근하도록 보장합니다.</span>
+    SemaphoreHandle_t xSerialSemaphore;
+    
+    <span style="color: rgb(106, 115, 125); font-weight: 400;">// 디지털 읽기와 아날로그 읽기를 위한 두 개의 태스크를 정의합니다</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">TaskDigitalRead</span><span style="color: rgb(36, 41, 46); font-weight: 400;">( <span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> *pvParameters )</span></span>;
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">TaskAnalogRead</span><span style="color: rgb(36, 41, 46); font-weight: 400;">( <span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> *pvParameters )</span></span>;
+    
+    <span style="color: rgb(106, 115, 125); font-weight: 400;">// 보드에 전원을 印加하거나 리셋을 누를 때 한 번 실행되는 설정 함수</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">setup</span><span style="color: rgb(36, 41, 46); font-weight: 400;">()</span> </span>{
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 9600 비트/초의 직렬 통신을 초기화합니다</span>
+      Serial.<span style="color: rgb(227, 98, 9); font-weight: 400;">begin</span>(<span style="color: rgb(0, 92, 197); font-weight: 400;">9600</span>);
+      
+      <span style="color: rgb(215, 58, 73); font-weight: 400;">while</span> (!Serial) {
+        ; <span style="color: rgb(106, 115, 125); font-weight: 400;">// 직렬 포트 연결을 기다립니다. 32u4 기반 보드의 네이티브 USB에 필요합니다.</span>
+      }
+    
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어는 태스크가 리소스 공유로 인해 일시 중지되어야 할 때 유용합니다.</span>
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어는 스케줄러 실행 중에만 사용해야 하지만, 여기서 설정할 수 있습니다.</span>
+      <span style="color: rgb(215, 58, 73); font-weight: 400;">if</span> ( xSerialSemaphore == <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> )  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 직렬 세마포어가 이미 생성되지 않았는지 확인합니다.</span>
+      {
+        xSerialSemaphore = <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreCreateMutex</span>(); 
+        <span style="color: rgb(215, 58, 73); font-weight: 400;">if</span> ( ( xSerialSemaphore ) != <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> )
+          <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreGive</span>( ( xSerialSemaphore ) );  
+      }
+    
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 독립적으로 실행될 두 개의 태스크 설정</span>
+      <span style="color: rgb(227, 98, 9); font-weight: 400;">xTaskCreate</span>(
+        TaskDigitalRead
+        ,  <span style="color: rgb(3, 47, 98); font-weight: 400;">"DigitalRead"</span>  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 사람이 알아볼 수 있는 이름</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">128</span>  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 스택 크기 (스택 하이워터 마크를 읽어 확인 및 조정 가능)</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> <span style="color: rgb(106, 115, 125); font-weight: 400;">// 태스크 매개변수</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">2</span>   <span style="color: rgb(106, 115, 125); font-weight: 400;">// 우선순위 (3이 가장 높고, 0이 가장 낮음)</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> ); <span style="color: rgb(106, 115, 125); font-weight: 400;">// 태스크 핸들</span>
+    
+      <span style="color: rgb(227, 98, 9); font-weight: 400;">xTaskCreate</span>(
+        TaskAnalogRead
+        ,  <span style="color: rgb(3, 47, 98); font-weight: 400;">"AnalogRead"</span> <span style="color: rgb(106, 115, 125); font-weight: 400;">// 사람이 알아볼 수 있는 이름</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">128</span>  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 스택 크기</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> <span style="color: rgb(106, 115, 125); font-weight: 400;">// 태스크 매개변수</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">1</span>   <span style="color: rgb(106, 115, 125); font-weight: 400;">// 우선순위</span>
+        ,  <span style="color: rgb(0, 92, 197); font-weight: 400;">NULL</span> ); <span style="color: rgb(106, 115, 125); font-weight: 400;">// 태스크 핸들</span>
+    
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 이제 개별 태스크 스케줄링을 관리하는 태스크 스케줄러가 자동으로 시작됩니다.</span>
+    }
+    
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">loop</span><span style="color: rgb(36, 41, 46); font-weight: 400;">()</span>
+    </span>{
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 비어 있음. 모든 작업은 태스크에서 수행됩니다.</span>
+    }
+    
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">TaskDigitalRead</span><span style="color: rgb(36, 41, 46); font-weight: 400;">( <span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> *pvParameters __attribute__((unused)) )</span>  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 이것은 태스크입니다.</span>
+    </span>{
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 디지털 핀 2에 푸시버튼이 연결되어 있습니다. 이름을 지정합니다:</span>
+      <span style="color: rgb(215, 58, 73); font-weight: 400;">uint8_t</span> pushButton = <span style="color: rgb(0, 92, 197); font-weight: 400;">2</span>;
+    
+      <span style="color: rgb(106, 115, 125); font-weight: 400;">// 푸시버튼의 핀을 입력으로 설정:</span>
+      <span style="color: rgb(227, 98, 9); font-weight: 400;">pinMode</span>(pushButton, INPUT);
+    
+      <span style="color: rgb(215, 58, 73); font-weight: 400;">for</span> (;;) <span style="color: rgb(106, 115, 125); font-weight: 400;">// 태스크는 절대 반환되거나 종료되지 않아야 합니다.</span>
+      {
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 입력 핀 읽기:</span>
+        <span style="color: rgb(215, 58, 73); font-weight: 400;">int</span> buttonState = <span style="color: rgb(227, 98, 9); font-weight: 400;">digitalRead</span>(pushButton);
+    
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 직렬 세마포어를 얻거나 "가져올" 수 있는지 확인합니다.</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어를 사용할 수 없으면 스케줄러의 5틱 동안 기다려 사용 가능한지 확인합니다.</span>
+        <span style="color: rgb(215, 58, 73); font-weight: 400;">if</span> ( <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreTake</span>( xSerialSemaphore, ( TickType_t ) <span style="color: rgb(0, 92, 197); font-weight: 400;">5</span> ) == pdTRUE )
+        {
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어를 얻어 공유 리소스에 접근할 수 있게 되었습니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 인쇄에 시간이 걸리므로 직렬 포트를 단독으로 사용하고 싶습니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 변환 중간에 빼앗기지 않도록 합니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 버튼 상태 출력:</span>
+          Serial.<span style="color: rgb(227, 98, 9); font-weight: 400;">println</span>(buttonState);
+    
+          <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreGive</span>( xSerialSemaphore );
+        }
+    
+        <span style="color: rgb(227, 98, 9); font-weight: 400;">vTaskDelay</span>(<span style="color: rgb(0, 92, 197); font-weight: 400;">1</span>);  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 안정성을 위해 읽기 사이에 1틱(약 15ms) 지연</span>
+      }
+    }
+    
+    <span style="color: rgb(36, 41, 46); font-weight: 400;"><span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> <span style="color: rgb(111, 66, 193); font-weight: 400;">TaskAnalogRead</span><span style="color: rgb(36, 41, 46); font-weight: 400;">( <span style="color: rgb(215, 58, 73); font-weight: 400;">void</span> *pvParameters __attribute__((unused)) )</span>  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 이것은 태스크입니다.</span>
+    </span>{
+      <span style="color: rgb(215, 58, 73); font-weight: 400;">for</span> (;;)
+      {
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 아날로그 핀 0의 입력 읽기:</span>
+        <span style="color: rgb(215, 58, 73); font-weight: 400;">int</span> sensorValue = <span style="color: rgb(227, 98, 9); font-weight: 400;">analogRead</span>(A0);
+    
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 직렬 세마포어를 얻거나 "가져올" 수 있는지 확인합니다.</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어를 사용할 수 없으면 스케줄러의 5틱 동안 기다려 사용 가능한지 확인합니다.</span>
+        <span style="color: rgb(215, 58, 73); font-weight: 400;">if</span> ( <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreTake</span>( xSerialSemaphore, ( TickType_t ) <span style="color: rgb(0, 92, 197); font-weight: 400;">5</span> ) == pdTRUE )
+        {
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 세마포어를 얻어 공유 리소스에 접근할 수 있게 되었습니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 인쇄에 시간이 걸리므로 직렬 포트를 단독으로 사용하고 싶습니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 변환 중간에 빼앗기지 않도록 합니다.</span>
+          <span style="color: rgb(106, 115, 125); font-weight: 400;">// 읽은 값 출력:</span>
+          Serial.<span style="color: rgb(227, 98, 9); font-weight: 400;">println</span>(sensorValue);
+    
+          <span style="color: rgb(227, 98, 9); font-weight: 400;">xSemaphoreGive</span>( xSerialSemaphore );
+        }
+    
+        <span style="color: rgb(227, 98, 9); font-weight: 400;">vTaskDelay</span>(<span style="color: rgb(0, 92, 197); font-weight: 400;">1</span>);  <span style="color: rgb(106, 115, 125); font-weight: 400;">// 안정성을 위해 읽기 사이에 1틱(약 15ms) 지연</span>
+      }
+    }</pre>
