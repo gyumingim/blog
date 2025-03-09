@@ -9,13 +9,13 @@ html {
     font-size: 16px !important;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 999px) {
     html {
         font-size: 36px !important;
     }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1000px) {
     html {
         font-size: 16px !important;
     }
