@@ -11,7 +11,7 @@
 공항에 도착하기 전 미리 인파를 파악할 수 있다면 어떨까?
 이를 위해 Airport-PUS 를 개발하게 되었다
 <div style="margin: 2rem;"></div>
-프로젝트는 겨울방학 친구의 협업 제의로 시작되었다. 
+프로젝트는 겨울방학 <a href="https://github.com/siniseong" style="color: #005ccc;">친구</a>의 협업 제의로 시작되었다. 
 실사용자를 유치할 수 있는 서비스를 개발하고 싶다는 목적으로 개발하게 되었다. 
 원래는 지하철 환승 안내 서비스를 기획하려고 했으나,
 서울의 복잡한 지하철 시스템(환승, 급행, XX선 열차 등)을 그대로 구현하는 것에 한계가 있다고 느껴
@@ -21,8 +21,8 @@
 복잡한 시스템 없이 이륙, 착륙, 혼잡도, 주차장 요금 계산 등 간단한 기능만을 필요로 하는 서비스이기 떄문에
 간단하게 만들 수 있겠다 생각했다.
 <div style="margin: 2rem;"></div>
-디자인과 퍼블리싱은 팀원인 희성이 대부분 담당했고,
-나는 개인적인 프로젝트를 한 이후 개발을 시작해서, 기능 개발을 위주로 담당했다. 
+디자인과 퍼블리싱은 팀원인 <a href="https://github.com/siniseong" style="color: #005ccc;">희성</a>이 대부분 담당했고,
+나는 <a href="https://github.com/gyumingim/Daile" style="color: #005ccc;">개인 프로젝트</a>를 진행한 이후 개발을 시작해서, 기능 개발을 위주로 담당했다. 
 
 이 프로젝트에서는 다양한 기술을 사용했다.
 <div style="margin: 2rem;"></div>
@@ -52,7 +52,7 @@
 chart.js는 npm 라이브러리이다. 차트를 직접적으로 개발하지 않고, 
 라이브러리를 사용한 이유는 단순한 라이브러리로써 끝이 아니라 색상, 점 크기 및 에니메이션, 
 점 위에 마우스를 올리면 세부 정보 표시 가능 듯 엄청난 커스텀 기능을 제공하고 있다.
-작년 학교 위키인 부마코인에 선배들이 사용한 것을 보고, 깔끔하고, 
+작년 학교 위키인 <a href="https://buma.wiki/coin" style="color: #005ccc;">부마코인</a>에 선배들이 사용한 것을 보고, 깔끔하고, 
 그 어느 차트보다 좋다 생각해 airport-pus에서도 chart.js를 사용했다. 
 <div style="margin: 2rem;"></div>
 useEffect Hook + inputValue은 항공편명 검색에 사용됐다. 
@@ -74,12 +74,12 @@ pwa 도입은 서비스를 개발하면서 스토어 등록에도 도전해보�
 덕분에 서비스에 PWA를 적용할 수 있었다. 
 PWA는 스토어에 등록하지 않아도 크롬이나 사파리 브라우저에서 바로 다운로드가 가능했다.
 <div style="margin: 2rem;"></div>
-원래, 네트리파이에서 베포를 성공했다. 
+원래, <a href="https://netlify.com" target="_blank" style="color: #005ccc;">네트리파이</a>에서 베포를 성공했다. 
 하지만 네트리파이 서버는 한국이아닌 해외에 있다보니 서비스 렌더링 속도가 엄청 느렸고, 
 매핑한 로고들이 뜨는데 까지는 20초가 넘게걸렸다. 
 네트리파이로 배포는 했지만 사용자들에게 불편함을 줄거라 생각하고, 네트리파이 마저 포기했다.
 <div style="margin: 2rem;"></div>
-최종적으로 배포는 render.com을 사용했다. 
+최종적으로 배포는 <a href="https://render.com" style="color: #005ccc;">render.com</a>을 사용했다. 
 <div style="margin: 2rem;"></div>
 하지만 이 엄청난 서비스도 문제가 있었다. 배포하고 아침에 자고 일어나니 링크에 들어가는 시간이 50초정도 걸렸다. 
 검색해보니 "사용자 유입이 없으면 서버가 자동으로 절전이 됩니다" 라고 명확하게 나와있었다. 
@@ -87,7 +87,7 @@ PWA는 스토어에 등록하지 않아도 크롬이나 사파리 브라우저�
 구글에 검색을 해보았고, "render.com에 있는 Cron Job을 사용하면 문제가 해결된다." 는 말을 찾게되었다. 
 아쉽지만 돈이 든다는 점에서 다른 방법을 찾기로 결정하게 되었다.
 이제는 정말 포기하고 돈을 지불할려고 고민하던 찰나 GPT한테 물어보기로 결정했다. 
-GPT는 uptimerobot이라는 사이트를 사용하면 문제가 해결된다. 라고 말해주었다.
+GPT는 <a href="https://uptimerobot.com" style="color: #005ccc;">uptimerobot</a>이라는 사이트를 사용하면 문제가 해결된다. 라고 말해주었다.
 <div style="margin: 2rem;"></div>
 uptimerobot은 설정한 시간 단위로 지정한 사이트를 모니터링 해주는 사이트였다. 
 모니터링을 하기위해서 지정한 시간 단위로 사이트에 트래픽을 발생시켜주기 때문에
@@ -96,6 +96,6 @@ uptimerobot이 사용자 대신 5분단위로 트래픽을 발생시켜주었기
 <div style="margin: 2rem;"></div> 
 정말 다행히도 uptimerobot에 사이트를 등록하니 다시는 서버가 자동 절전되는 문제는 발생하지 않았다 
 <div style="margin: 2rem;"></div> 
-<a href="https://www.airport-pus.kr" target="_blank"><h1>https://www.airport-pus.kr</h1></a> 
+<a href="https://www.airport-pus.kr" target="_blank"><h1 style="color: #005ccc;">https://www.airport-pus.kr</h1></a> 
 많이 방문해주세요! 
 </html> 
