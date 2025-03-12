@@ -1,0 +1,80 @@
+<html style="font-size: 16px;">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="../static/globals.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/">
+                <h2 style="display: inline-block;">김규민</h2>
+                <span>gyumingim</span>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div style="margin-bottom: 1rem;">
+            <a href="/weekly">
+                <span style="margin-bottom: .5rem;">
+                    ← weeklys
+                </span>
+            </a>
+        </div>
+
+        <h2 style="font-weight: 700;">{{ data.title }}</h2>
+        <span style="font-size: 1.2rem; margin-right: 0.4rem;">{{ data.desc }}</span>
+        <time style="font-family:RobotoMono,monospace; font-size: .8rem;">{{ data.date }}</time>
+        <section style="margin: 1.8rem 0;">
+            <details style="margin: 0; padding: 0; display: inline; margin-bottom: 1.5rem;">
+                <summary style="font-weight: 700; cursor: pointer;">
+                    Table of Contents
+                </summary>
+            </details>
+            <article>
+                {{ html|safe }}
+            </article>
+        </section>
+        <section style="margin-top: 50px; overflow: hidden;">
+            {% if back %}
+            <div style="margin-bottom: 1rem; text-align: left; float: left; margin-right: 5px;">
+                <a href="{{ weekly_number-1 }}" style="color: #000; text-decoration: none; cursor: pointer;">
+                    <div
+                        style="font-family: Pretendard,sans-serif; font-size: .9rem; text-align: left; float: left; margin-right: 5px;">
+                        ←
+                    </div>
+                    <div style="text-align: left; float: left; margin-right: 5px;">
+                        <p style="font-weight: 700; font-size: 1rem; margin: 0;">
+                            {{ back.title }}
+                        </p>
+                        <p style="font-weight: 400; font-size: .8rem; margin: 0;">
+                            {{ back.desc }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+            {% if front %}
+            <div style="margin-bottom: 1rem; text-align: right; float: right; margin-left: 5px;">
+                <a href="{{ weekly_number+1 }}" style="color: #000; text-decoration: none; cursor: pointer;">
+                    <div style="font-family: Pretendard,sans-serif; font-size: .9rem; text-align: right; float: right; margin-left: 5px;">
+                        →
+                    </div>
+                    <div style="text-align: right; float: right; margin-left: 5px;">
+                        <p style="font-weight: 700; font-size: 1rem; margin: 0;">
+                            {{ front.title }}
+                        </p>
+                        <p style="font-weight: 400; font-size: .8rem; margin: 0;">
+                            {{ front.desc }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+    <footer style="font-size: .8rem; color: #767676;">
+        © 2025 김규민
+    </footer>
+</body>
+</html>

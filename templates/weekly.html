@@ -21,29 +21,30 @@
                 Works ↘
             </h3>
         </a>
-        <h3 style="margin-bottom: .5rem;">
-            Article
+        <a href="article">
+            <h3 style="margin-bottom: .5rem;">
+                Article ↘
+            </h3>
+        </a>
+        <h3>
+            Weekly
         </h3>
+        
         <section>
-            {% for article in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ loop.index }}">
+            {% for weekly in data %}
+                <a style="display: block; margin-bottom: 0.4rem;" href="weekly/{{ loop.index }}">
                     <span>
-                        <b>{{ article.title }}:</b>
+                        <b>{{ weekly.title }}:</b>
                     </span>
                     <span>
-                        {{ article.desc }}
+                        {{ weekly.desc }}
                     </span>
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ article.date }}
+                        {{ weekly.date }}
                     </time>
                 </a>
             {% endfor %}
         </section>
-        <a href="weekly">
-            <h3>
-                Weekly ↘
-            </h3>
-        </a>
     </main>
     <footer style="font-size: .8rem; color: #767676;">
         © 2025 김규민
