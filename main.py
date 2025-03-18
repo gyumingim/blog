@@ -57,7 +57,7 @@ def load_content_data(directory, data_list, html_cache):
                     with open(md_path, "r", encoding="utf-8") as md_file:
                         md_content = md_file.read()
                         # Markdown을 HTML로 변환
-                        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite'])
+                        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'nl2br'])
                         html_cache[content_number] = html_content
                         print(f"Markdown 파일 변환: {md_filename}")
                 except Exception as e:
