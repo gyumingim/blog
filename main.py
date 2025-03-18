@@ -21,6 +21,8 @@ weekly_dir = "./templates/weekly"
 weekly_data = []
 weekly_html = {}
 
+# CSS 파일의 상대 경로
+
 # 숫자 순서대로 정렬하기 위한 함수
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
@@ -57,19 +59,20 @@ def load_content_data(directory, data_list, html_cache):
                     with open(md_path, "r", encoding="utf-8") as md_file:
                         md_content = md_file.read()
                         # Markdown을 HTML로 변환
-                        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'nl2br'])
+                        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'attr_list'])
                         html_cache[content_number] = html_content
                         print(f"Markdown 파일 변환: {md_filename}")
+                        print(type(html_content))
                 except Exception as e:
                     print(f"MD 파일 처리 오류: {e}")
             # HTML 파일 처리
-            elif os.path.exists(html_path):
-                try:
-                    with open(html_path, "r", encoding="utf-8") as html_file:
-                        html_cache[content_number] = html_file.read()
-                        print(f"HTML 파일 로드: {html_filename}")
-                except Exception as e:
-                    print(f"HTML 파일 처리 오류: {e}")
+            # elif os.path.exists(html_path):
+            #     try:
+            #         with open(html_path, "r", encoding="utf-8") as html_file:
+            #             html_cache[content_number] = html_file.read()
+            #             print(f"HTML 파일 로드: {html_filename}")
+            #     except Exception as e:
+            #         print(f"HTML 파일 처리 오류: {e}")
     except Exception as e:
         print(f"디렉토리 처리 오류: {e}")
 
@@ -137,7 +140,7 @@ def get_content_detail(content_number, content_type):
     if not contents:
         # 먼저 MD 파일 확인
         md_path = os.path.join(content_dir, f"{content_number}.md")
-        html_path = os.path.join(content_dir, f"{content_number}.html")
+        # html_path = os.path.join(content_dir, f"{content_number}.html")
         
         if os.path.exists(md_path):
             try:
