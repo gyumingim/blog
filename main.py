@@ -4,75 +4,81 @@ from jinja2 import Environment, FileSystemLoader
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
-import json
+from datetime import datetime
 import os
 import re
 import uvicorn
 import markdown
+import yaml
+import glob
+
 
 templates = Jinja2Templates(directory="templates")
 
-# 모든 JSON 파일을 순서대로 읽기
+# 디렉토리 경로
 articles_dir = "./templates/articles"
+weekly_dir = "./templates/weekly"
+
+# 데이터 및 HTML 캐시 저장소
 articles_data = []
 articles_html = {}
-
-weekly_dir = "./templates/weekly"
 weekly_data = []
 weekly_html = {}
-
-# CSS 파일의 상대 경로
 
 # 숫자 순서대로 정렬하기 위한 함수
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
+# 마크다운 파일에서 메타데이터와 내용을 추출하는 함수
+def parse_markdown_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+        
+    parts = content.split('---', 2)
+    if len(parts) > 1:
+        try:
+            metadata = yaml.safe_load(parts[1].strip())
+            return metadata, parts[2].strip() if len(parts) > 2 else ""
+        except Exception as e:
+            print(f"메타데이터 파싱 오류: {e}")
+    
+    return {}, content
+
 # 콘텐츠 로드 함수 (재사용 가능)
 def load_content_data(directory, data_list, html_cache):
     try:
-        # 디렉토리에서 모든 JSON 파일 가져오기
-        json_files = [f for f in os.listdir(directory) if f.endswith('.json')]
+        # 디렉토리에서 모든 마크다운 파일 가져오기
+        md_files = glob.glob(os.path.join(directory, "*.md"))
+        
         # 파일명 기준으로 정렬
-        json_files.sort(key=natural_sort_key)
+        md_files.sort(key=natural_sort_key)
         print(f"{directory} 디렉토리 처리 시작")
         
-        # 각 JSON 파일 읽기
-        for json_file in json_files:
-            print(f"JSON 파일 처리: {json_file}")
-            file_path = os.path.join(directory, json_file)
-            with open(file_path, "r", encoding="utf-8") as file:
-                content_data = json.load(file)
-                data_list.append(content_data)
+        # 각 마크다운 파일 읽기
+        for md_file in md_files:
+            print(f"마크다운 파일 처리: {md_file}")
             
-            # 파일 번호 추출 (확장자 제거)
-            content_number = int(os.path.splitext(json_file)[0])
+            # 메타데이터와 내용 추출
+            metadata, md_content = parse_markdown_file(md_file)
             
-            # HTML 또는 MD 파일 확인
-            html_filename = f"{content_number}.html"
-            md_filename = f"{content_number}.md"
-            html_path = os.path.join(directory, html_filename)
-            md_path = os.path.join(directory, md_filename)
+            if not metadata:
+                print(f"메타데이터 없음: {md_file}")
+                continue
             
-            # MD 파일이 있으면 우선 처리
-            if os.path.exists(md_path):
-                try:
-                    with open(md_path, "r", encoding="utf-8") as md_file:
-                        md_content = md_file.read()
-                        # Markdown을 HTML로 변환
-                        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'attr_list'])
-                        html_cache[content_number] = html_content
-                        print(f"Markdown 파일 변환: {md_filename}")
-                        print(type(html_content))
-                except Exception as e:
-                    print(f"MD 파일 처리 오류: {e}")
-            # HTML 파일 처리
-            # elif os.path.exists(html_path):
-            #     try:
-            #         with open(html_path, "r", encoding="utf-8") as html_file:
-            #             html_cache[content_number] = html_file.read()
-            #             print(f"HTML 파일 로드: {html_filename}")
-            #     except Exception as e:
-            #         print(f"HTML 파일 처리 오류: {e}")
+            # 필수 메타데이터 확인
+            if 'id' not in metadata or 'title' not in metadata:
+                print(f"필수 메타데이터 누락: {md_file}")
+                continue
+            
+            # 데이터 목록에 추가
+            data_list.append(metadata)
+            
+            # HTML 변환 및 캐시 저장
+            content_number = int(metadata['id'])
+            html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'attr_list'])
+            html_cache[content_number] = html_content
+            print(f"Markdown 파일 변환 완료: {md_file}, ID: {content_number}")
+            
     except Exception as e:
         print(f"디렉토리 처리 오류: {e}")
 
@@ -80,12 +86,16 @@ def load_content_data(directory, data_list, html_cache):
 load_content_data(articles_dir, articles_data, articles_html)
 load_content_data(weekly_dir, weekly_data, weekly_html)
 
+# ID 기준으로 데이터 정렬
+articles_data.sort(key=lambda x: x['id'])
+weekly_data.sort(key=lambda x: x['id'])
+
 app = FastAPI()
 
 # CORS 설정 - 배포 시 실제 도메인으로 변경 필요
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 프로덕션에서는 특정 출처로 설정하세요
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -112,7 +122,7 @@ def weekly_list():
     return templates.TemplateResponse("weekly.html", {"request": {}, "data": weekly_data})
 
 # 통합된 콘텐츠 상세 페이지 처리 함수
-def get_content_detail(content_number, content_type):
+def get_content_detail(content_id, content_type):
     # 콘텐츠 타입에 따라 데이터와 캐시 선택
     if content_type == "article":
         data_list = articles_data
@@ -127,62 +137,48 @@ def get_content_detail(content_number, content_type):
         template_name = "weekly_one.html"
         content_key = "weekly_number"
     
-    # 유효성 검사
-    if content_number <= 0 or content_number > len(data_list):
+    # ID로 데이터 찾기
+    content_data = None
+    content_index = -1
+    for i, item in enumerate(data_list):
+        if item['id'] == content_id:
+            content_data = item
+            content_index = i
+            break
+    
+    # 데이터가 없으면 404 에러
+    if content_data is None:
         raise HTTPException(status_code=404, detail=f"{content_type.capitalize()} not found")
     
     # 이전/다음 글 데이터
-    back_data = data_list[content_number-2] if content_number-2 >= 0 else None
-    front_data = data_list[content_number] if content_number < len(data_list) else None
+    back_data = data_list[content_index - 1] if content_index > 0 else None
+    front_data = data_list[content_index + 1] if content_index < len(data_list) - 1 else None
     
     # HTML 내용 가져오기
-    contents = html_cache.get(content_number, "")
+    contents = html_cache.get(content_id, "")
     if not contents:
-        # 먼저 MD 파일 확인
-        md_path = os.path.join(content_dir, f"{content_number}.md")
-        # html_path = os.path.join(content_dir, f"{content_number}.html")
-        
-        if os.path.exists(md_path):
-            try:
-                with open(md_path, "r", encoding="utf-8") as md_file:
-                    md_content = md_file.read()
-                    # Markdown을 HTML로 변환
-                    contents = markdown.markdown(md_content, extensions=['extra', 'codehilite'])
-                    # 캐시에 저장
-                    html_cache[content_number] = contents
-            except FileNotFoundError:
-                contents = "<p>Markdown 내용이 없습니다.</p>"
-        elif os.path.exists(html_path):
-            try:
-                with open(html_path, "r", encoding="utf-8") as html_file:
-                    contents = html_file.read()
-                    # 캐시에 저장
-                    html_cache[content_number] = contents
-            except FileNotFoundError:
-                contents = "<p>HTML 내용이 없습니다.</p>"
-        else:
-            contents = "<p>컨텐츠를 찾을 수 없습니다.</p>"
+        contents = "<p>컨텐츠를 찾을 수 없습니다.</p>"
     
     # 템플릿 응답 데이터 준비
     template_data = {
         "request": {}, 
         "html": contents,
-        "data": data_list[content_number-1],
+        "data": content_data,
         "back": back_data,
         "front": front_data,
     }
     # 콘텐츠 번호 추가 (키 이름이 다름)
-    template_data[content_key] = content_number
+    template_data[content_key] = content_id
     
     return templates.TemplateResponse(template_name, template_data)
 
-@app.get("/article/{article_number}")
-def article_detail(article_number: int):
-    return get_content_detail(article_number, "article")
+@app.get("/article/{article_id}")
+def article_detail(article_id: int):
+    return get_content_detail(article_id, "article")
 
-@app.get("/weekly/{weekly_number}")
-def weekly_detail(weekly_number: int):
-    return get_content_detail(weekly_number, "weekly")
+@app.get("/weekly/{weekly_id}")
+def weekly_detail(weekly_id: int):
+    return get_content_detail(weekly_id, "weekly")
 
 # 서버 실행 코드 (직접 실행 시에만 작동)
 if __name__ == "__main__":

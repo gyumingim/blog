@@ -1,68 +1,75 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 * {
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-    margin: 0;
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  margin: 0;
 }
- 
+
 html {
-    font-size: 16px !important;
-    word-break: break-all;
+  font-size: 16px !important;
+  word-break: break-all;
 }
 
 @media screen and (max-width: 999px) {
-    html {
-        font-size: 36px !important;
-    }
+  html {
+    font-size: 36px !important;
+  }
 }
 
 @media screen and (min-width: 1000px) {
-    html {
-        font-size: 16px !important;
-    }
+  html {
+    font-size: 16px !important;
+  }
 }
 
 a {
-    text-decoration: none;
-    color: #000000;
+  text-decoration: none;
+  color: #005ccc;
 }
 
-a:hover {
-    color: #005ccc;
+span {
+  color: black;
 }
 
 body {
-    margin: 1.3rem 2rem;
+  margin: 1.3rem 2rem;
 }
 
 main {
-    margin: 2rem 0;
-    max-width: 50rem;
+  margin: 2rem 0;
+  max-width: 50rem;
 }
 
 section {
-    margin: 1rem 0;
-    line-height: 1.5rem;
+  margin: 1rem 0;
+  line-height: 1.5rem;
 }
 
 h2 {
-    font-weight: 800;
+  font-weight: 800;
+  color: black;
+}
+
+time {
+  color: black;
 }
 
 h3 {
-    font-size: 1.3rem;
+  font-size: 1.3rem;
+  color: black;
 }
 
 br {
-    margin: 0.5rem;
+  margin: 0.5rem;
 }
 
 blockquote {
-    border-top : 1px solid #ccc;
-    border-bottom:1px solid #ccc;
-    margin: 10px;
-    margin: 10px;
-    padding: 10px;
-  }
-  
-  
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 10px;
+  margin: 10px;
+  padding: 10px;
+}

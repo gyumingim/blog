@@ -23,14 +23,9 @@
         </div>
 
         <h2 style="font-weight: 700;">{{ data.title }}</h2>
-        <span style="font-size: 1.2rem; margin-right: 0.4rem;">{{ data.desc }}</span>
+        <span style="font-size: 1.2rem; margin-right: 0.4rem;">{{ data.subtitle }}</span>
         <time style="font-family:RobotoMono,monospace; font-size: .8rem;">{{ data.date }}</time>
         <section style="margin: 1.8rem 0;">
-            <details style="margin: 0; padding: 0; display: inline; margin-bottom: 1.5rem;">
-                <summary style="font-weight: 700; cursor: pointer;">
-                    Table of Contents
-                </summary>
-            </details>
             <article>
                 {{ html|safe }}
             </article>
@@ -48,7 +43,7 @@
                             {{ back.title }}
                         </p>
                         <p style="font-weight: 400; font-size: .8rem; margin: 0;">
-                            {{ back.desc }}
+                            {{ back.subtitle }}
                         </p>
                     </div>
                 </a>
@@ -65,7 +60,7 @@
                             {{ front.title }}
                         </p>
                         <p style="font-weight: 400; font-size: .8rem; margin: 0;">
-                            {{ front.desc }}
+                            {{ front.subtitle }}
                         </p>
                     </div>
                 </a>
