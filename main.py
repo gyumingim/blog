@@ -75,7 +75,7 @@ def load_content_data(directory, data_list, html_cache):
             
             # HTML 변환 및 캐시 저장
             content_number = int(metadata['id'])
-            html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite', 'attr_list'])
+            html_content = markdown.markdown(md_content, extensions=['fenced_code'])
             html_cache[content_number] = html_content
             print(f"Markdown 파일 변환 완료: {md_file}, ID: {content_number}")
             
