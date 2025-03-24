@@ -147,9 +147,10 @@ def get_content_detail(content_id, content_type):
     if content_data is None:
         raise HTTPException(status_code=404, detail=f"{content_type.capitalize()} not found")
     
-    # 이전/다음 글 데이터
-    back_data = data_list[content_index - 1] if content_index > 0 else None
-    front_data = data_list[content_index + 1] if content_index < len(data_list) - 1 else None
+    # 이전/다음 글 데이터 - 역순 정렬에 맞게 수정
+    # 역순 정렬이므로 이전(back)은 리스트의 다음 항목, 다음(front)은 리스트의 이전 항목
+    front_data = data_list[content_index - 1] if content_index > 0 else None
+    back_data = data_list[content_index + 1] if content_index < len(data_list) - 1 else None
     
     # HTML 내용 가져오기
     contents = html_cache.get(content_id, "")

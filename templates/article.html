@@ -26,7 +26,7 @@
         </h3>
         <section>
             {% for article in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ loop.index }}">
+                <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ article.id }}">
                     <span>
                         <b>{{ article.title }}:</b>
                     </span>
