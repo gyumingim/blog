@@ -17,17 +17,18 @@ templates = Jinja2Templates(directory="templates")
 
 # 디렉토리 경로
 articles_dir = "./templates/articles"
-weekly_dir = "./templates/weekly"
+work_dir = "./templates/work"
 
 # 데이터 및 HTML 캐시 저장소
 articles_data = []
 articles_html = {}
-weekly_data = []
-weekly_html = {}
+work_data = []
+work_html = {}
 
-# 숫자 순서대로 정렬하기 위한 함수
+# 숫자 순서대로 정렬하기 위한 함수 (역순)
 def natural_sort_key(s):
-    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
+    # 기존 로직을 유지하되, 역순 정렬을 위해 음수 값을 반환
+    return [-int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 # 마크다운 파일에서 메타데이터와 내용을 추출하는 함수
 def parse_markdown_file(file_path):
@@ -84,11 +85,11 @@ def load_content_data(directory, data_list, html_cache):
 
 # 콘텐츠 데이터 로드
 load_content_data(articles_dir, articles_data, articles_html)
-load_content_data(weekly_dir, weekly_data, weekly_html)
+load_content_data(work_dir, work_data, work_html)
 
-# ID 기준으로 데이터 정렬
-articles_data.sort(key=lambda x: x['id'])
-weekly_data.sort(key=lambda x: x['id'])
+# ID 기준으로 데이터 정렬 (내림차순)
+articles_data.sort(key=lambda x: -int(x['id']))
+work_data.sort(key=lambda x: -int(x['id']))
 
 app = FastAPI()
 
@@ -109,17 +110,13 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 def root():
     return FileResponse("templates/about.html")
 
-@app.get("/work")
-def work():
-    return FileResponse("templates/work.html")
-
 @app.get("/article")
 def article_list():
     return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data})
 
-@app.get("/weekly")
-def weekly_list():
-    return templates.TemplateResponse("weekly.html", {"request": {}, "data": weekly_data})
+@app.get("/work")
+def work_list():
+    return templates.TemplateResponse("work.html", {"request": {}, "data": work_data})
 
 # 통합된 콘텐츠 상세 페이지 처리 함수
 def get_content_detail(content_id, content_type):
@@ -130,12 +127,12 @@ def get_content_detail(content_id, content_type):
         content_dir = articles_dir
         template_name = "article_one.html"
         content_key = "article_number"
-    else:  # weekly
-        data_list = weekly_data
-        html_cache = weekly_html
-        content_dir = weekly_dir
-        template_name = "weekly_one.html"
-        content_key = "weekly_number"
+    else:  # work
+        data_list = work_data
+        html_cache = work_html
+        content_dir = work_dir
+        template_name = "work_one.html"
+        content_key = "work_number"
     
     # ID로 데이터 찾기
     content_data = None
@@ -176,9 +173,9 @@ def get_content_detail(content_id, content_type):
 def article_detail(article_id: int):
     return get_content_detail(article_id, "article")
 
-@app.get("/weekly/{weekly_id}")
-def weekly_detail(weekly_id: int):
-    return get_content_detail(weekly_id, "weekly")
+@app.get("/work/{work_id}")
+def work_detail(work_id: int):
+    return get_content_detail(work_id, "work")
 
 # 서버 실행 코드 (직접 실행 시에만 작동)
 if __name__ == "__main__":

@@ -1,8 +1,6 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<link rel="stylesheet" href="../static/globals.css" />
 <html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="../static/globals.css" />
-</head>
 <body>
     <header >
         <nav>
@@ -18,22 +16,33 @@
                 About ↘
             </h3>
         </a>
-        <h3>
-            Works
-        </h3>
+        <a href="work">
+            <h3 style="margin-bottom: .5rem;">
+                Works
+            </h3>
+        </a>
         <section>
-            제가 한 프로젝트를 소개할 곳입니다.
+            {% for weekly in data %}
+                <a style="display: block; margin-bottom: 0.4rem;" href="weekly/{{ loop.index }}">
+                    <span>
+                        <b>{{ weekly.title }}:</b>
+                    </span>
+                    <span>
+                        {{ weekly.subtitle }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ weekly.date }}
+                    </time>
+                </a>
+            {% endfor %}
         </section>
-        <a href="article" >
-            <h3 style="margin-bottom: .5rem;"> 
-                Articles ↘
+        <a href="article">
+            <h3 style="margin-bottom: .5rem;">
+                Article ↘
             </h3>
         </a>
-        <a href="weekly">
-            <h3>
-                Weekly ↘
-            </h3>
-        </a>
+        
+        
     </main>
     <footer style="font-size: .8rem; color: #767676;">
         © 2025 김규민
