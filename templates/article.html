@@ -26,17 +26,22 @@
         </h3>
         <section>
             {% for article in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ article.id }}">
-                    <span>
-                        <b>{{ article.title }}:</b>
-                    </span>
-                    <span>
-                        {{ article.subtitle }}
-                    </span>
-                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ article.date }}
-                    </time>
-                </a>
+                <div class="article-container">
+                    <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ article.id }}" class="article-link">
+                        <span>
+                            <b>{{ article.title }}:</b>
+                        </span>
+                        <span>
+                            {{ article.subtitle }}
+                        </span>
+                        <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                            {{ article.date }}
+                        </time>
+                        {% if article.thumbnail %}
+                        <img src="{{ article.thumbnail }}" alt="{{ article.title }}" class="article-thumbnail" />
+                        {% endif %}
+                    </a>
+                </div>
             {% endfor %}
         </section>
     </main>

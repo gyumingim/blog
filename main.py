@@ -71,6 +71,11 @@ def load_content_data(directory, data_list, html_cache):
                 print(f"필수 메타데이터 누락: {md_file}")
                 continue
             
+            # thumbnail 경로가 상대 경로인 경우 절대 경로로 변환
+            if 'thumbnail' in metadata:
+                # ../../static/ 형식을 /static/으로 변환
+                metadata['thumbnail'] = 'static/image/' + metadata['thumbnail']
+            
             # 데이터 목록에 추가
             data_list.append(metadata)
             
@@ -112,10 +117,12 @@ def root():
 
 @app.get("/article")
 def article_list():
+    # thumbnail 정보가 이미 articles_data에 포함되어 있으므로 그대로 전달
     return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data})
 
 @app.get("/work")
 def work_list():
+    # thumbnail 정보가 이미 work_data에 포함되어 있으므로 그대로 전달
     return templates.TemplateResponse("work.html", {"request": {}, "data": work_data})
 
 # 통합된 콘텐츠 상세 페이지 처리 함수
@@ -157,11 +164,11 @@ def get_content_detail(content_id, content_type):
     if not contents:
         contents = "<p>컨텐츠를 찾을 수 없습니다.</p>"
     
-    # 템플릿 응답 데이터 준비
+    # 템플릿 응답 데이터 준비 (thumbnail 정보는 이미 content_data에 포함됨)
     template_data = {
         "request": {}, 
         "html": contents,
-        "data": content_data,
+        "data": content_data,  # thumbnail 정보가 여기에 포함됨
         "back": back_data,
         "front": front_data,
     }

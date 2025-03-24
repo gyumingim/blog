@@ -3,6 +3,7 @@ id: 6
 title: "디자인 패턴 이해"
 subtitle: "CS"
 date: "2025.03.20"
+thumbnail: "DesignPattern.png"
 ---
 
 ## 서론
