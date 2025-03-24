@@ -7,20 +7,20 @@
     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   margin: 0;
   color: black;
+  word-break: break-word;
 }
 
 html {
   font-size: 16px !important;
-  word-break: break-all;
 }
 
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 900px) {
   html {
     font-size: 36px !important;
   }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 900px) {
   html {
     font-size: 16px !important;
   }
