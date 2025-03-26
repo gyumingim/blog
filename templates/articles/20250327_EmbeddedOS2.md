@@ -49,7 +49,6 @@ arm-none-eabi-as -march=armv7-a -mcpu=cortex-a8 -o Entry.o ./Entry.S
 arm-none-eabi-objcopy -O binary Entry.o Entry.bin
 
 hexdump Entry.bin
-
 ```
 #
 0001 e1a0이 보입니다.
@@ -91,14 +90,12 @@ SECTIONS
 		*(.bss)
 	}
 } 
- 
 ```
 #
 아래 명령어를 이용하여 실행 파일을 만들어줍니다.
 #
 ```
 arm-none-eabi-ld -n -T ./navilos.ld -o navilos.axf boot/Entry.o
-
 ```
 #
 arm-none-eabi-objdump 명령어를 사용하여 파일이 어떤 명령어로 구성되어 있는지 확인해봤습니다.
@@ -154,7 +151,7 @@ Makefile을 만들어서 빌드를 자동화해봤습니다.
 #
 책에서 나온 코드와 조금 달라진 점이 존재합니다.
 #
-```php
+```Makefile
 # 타겟 아키텍처와 CPU를 지정합니다.
 ARCH = armv7-a
 MCPU = cortex-a8
@@ -169,7 +166,8 @@ OC = arm-none-eabi-objcopy
 LINKER_SCRIPT = ./navilos.ld
 
 # boot 디렉토리 내의 모든 어셈블리 소스 파일들을 찾습니다.
-ASM_SRCS = $(wildcard boot/*.S)
+ASM_SRCS = $(wildcard boot/\*.S)
+
 # 어셈블리 소스 파일들을 대응하는 오브젝트 파일 경로로 변환합니다.
 ASM_OBJS = $(patsubst boot/%.S, build/%.o, $(ASM_SRCS))
 
@@ -220,8 +218,7 @@ build/%.o: boot/%.S
 
 하드웨어의 정보를 읽어오는 간단한 코드를 만들어봤습니다.
 #
-Entry.S 소스 코드
-#
+_Entry.S 소스 코드_
 ```cs
 .text
 	.code 32
@@ -254,8 +251,7 @@ R0 레지스터에 0x10000000가 들어간 것을 확인할 수 있고 ...
 R1 레지스터에 0x1780500 값이 저장된 것을 확인할 수 있었습니다.
 코드를 작성하여 읽어온 정보를 분석해보겠습니다.
 #
-(SYS_ID_analysis.py 소스 코드)
-#
+_SYS_ID_analysis.py 소스 코드_
 ```python
 data = input("input data : ")
 data = int(data,16)
