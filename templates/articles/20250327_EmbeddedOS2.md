@@ -1,6 +1,6 @@
 ---
 id: 14
-title: "임베디드 OS 프로젝트 Ch.2"
+title: "🖥️임베디드 OS 프로젝트 Ch.2"
 subtitle: "일단 시작하기"
 date: "2025.03.26"
 thumbnail: "EmbeddedOS1.png"

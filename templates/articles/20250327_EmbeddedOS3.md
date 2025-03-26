@@ -1,6 +1,6 @@
 ---
 id: 15
-title: "임베디드 OS 프로젝트"
+title: "🖥️임베디드 OS 프로젝트"
 subtitle: "[용어 정리]"
 date: "2025.03.26"
 thumbnail: "EmbeddedOS1.png"

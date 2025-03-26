@@ -1,6 +1,6 @@
 ---
 id: 17
-title: "임베디드 OS 프로젝트 Ch.5"
+title: "🖥️임베디드 OS 프로젝트 Ch.5"
 subtitle: "UART"
 date: "2025.03.26"
 thumbnail: "EmbeddedOS1.png"
