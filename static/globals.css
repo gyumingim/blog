@@ -10,6 +10,10 @@
   word-break: break-word;
 }
 
+pre code {
+  font-family: 'Fira Code';
+}
+
 html {
   font-size: 16px !important;
 }
