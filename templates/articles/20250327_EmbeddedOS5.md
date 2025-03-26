@@ -460,10 +460,10 @@ uint32_t putstr(const char* s)
     return c;
 }
 ```
-
+#
 이제 hello world를 출력할 수 있도록 main.c 파일에 putchr 함수를 넣어줍시다. 
-
->Main.c
+#
+_Main.c_
 ```c
 #include "stdint.h"
 #include "HalUart.h"
@@ -485,31 +485,32 @@ static void Hw_init(void)
     Hal_uart_init();
 }
 ```
-
+#
 `make run`
-
-![](https://velog.velcdn.com/images/wbhaao/post/b277c7d9-4e51-4cb4-acbe-a0edbaecdffc/image.png)
-
+#
+![](https://velog.velcdn.com/images/wbhaao/post/b277c7d9-4e51-4cb4-acbe-a0edbaecdffc/image.png){:width="500"}
+#
 Hello World! 가 잘  출력되는 것을 볼 수 있다. 
-
+#
 ## 5.3 UART로 입력받기
+#
 이제 UART로 출력을 해보았으니 입력 또한 구현해보겠습니다. 
 우리가 **출력**을 할 때에는 
-
+#
 1. 보내기 버퍼가 비었는지, 비어있으면 
 2. 데이터 레지스터를 통해 데이터를 보내기 버퍼로 보내고, 
 3. 하드웨어가 알아서 나머지 작업을 처리해주고 
 4. 하드웨어와 연결된 콘솔에 데이터가 나타납니다. 
-
+#
 **입력**은 그와 반대로 
-
+#
 1. 받기 버퍼가 채워져있는지 확인하고, 채워져 있다면 
 2. 데이터 레지스터를 통해 데이터를 읽어오면 됩니다. 
-
+#
 입력받는 함수는 코드 구성에 따라 성능이 크게 달라지게 됩니다. 
 저는 바로 최적화 코드로 구성하겠습니다.
-
->Hal_uart_get_char() - [Uart.c]
+#
+_Hal_uart_get_char() - [Uart.c]_
 ```c
 uint8_t Hal_uart_get_char(void)
 {
@@ -526,16 +527,15 @@ uint8_t Hal_uart_get_char(void)
     return (uint8_t)(data & 0xFF);
 }
 ```
-
-![](https://velog.velcdn.com/images/wbhaao/post/c52da9d9-04f7-4909-bd15-ffa6cf317266/image.png)
-
+#
+![](https://velog.velcdn.com/images/wbhaao/post/c52da9d9-04f7-4909-bd15-ffa6cf317266/image.png){:width="500"}
+#
 최적화가 되지 않은 코드는 약 340바이트가 생성되지만 
 이 코드는 총 200바이트짜리 바이너리가 생성됩니다. 
-
-
-
+#
 만든 함수를 Main.c에 넣어봅시다
->Main.c
+#
+_Main.c_
 ```c
 #include "stdint.h"
 #include "HalUart.h"
@@ -563,15 +563,16 @@ static void Hw_init(void)
     Hal_uart_init();
 }
 ```
-
+#
 ![](https://velog.velcdn.com/images/wbhaao/post/18c15a29-8828-467b-a4ae-435cbc63292e/image.png)
-
+#
 잘 입력되는 걸 확인 할 수 있습니다. 
-
+#
 ## 5.4 printf 만들기
+#
 우리가 쓰던 `printf`와 실제 `printf`의 차이점은 포맷을 쓸 수 있나, 없나 입니다. 포맷은 `%s, %d` 같이 데이터를 출력하는 형식을 지정할 수 있다는 것입니다. 다른 기능들이 많지만 우리는 필요한 기능만 만들어 볼 것입니다. 우리는 `debug_printf()`를 만들 것 입니다. 
-
->debug_printf() 선언
+#
+_debug_printf() 선언_
 ```c
 uint32_t debug_printf(const char* format, ...)
 {
@@ -582,10 +583,10 @@ uint32_t debug_printf(const char* format, ...)
     return putstr(printf_buf);
 }
 ```
-
+#
 코드가 생각보다 간단합니다. 다음으로 stdarg.h 코드를 작성해보겠습니다. 
-
->stdarg.h
+#
+_stdarg.h_
 ```c
 /*
  * stdarg.h
@@ -601,13 +602,13 @@ typedef __builtin_va_list va_list;
 #define va_arg(v,l)     __builtin_va_arg(v,l)
 #endif /* INCLUDE_STDARG_H_ */
 ```
-
+#
 GCC 표준 라이브러리의 기존 stdarg.h 파일은 더 복잡합니다. 
 그래서 필요한 부분만 복사해서 사용합니다. 
-
+#
 stdio.h 파일에서 include만 사용하면, va_list, va_start, va_end를 사용 할 수 있게 됩니다. 
-
->stdio.h
+#
+_stdio.h_
 ```
 /*
  * stdio.h
@@ -629,10 +630,10 @@ uint32_t vsprintf(char* buf, const char* format, va_list arg);
 uint32_t utoa(char* buf, uint32_t val, utoa_t base);
 #endif /* LIB_STDIO_H_ */
 ```
-
+#
 stdio.h에 stdarg.h파일을 불러옵니다
-
->vsprintf() 함수
+#
+_vsprintf() 함수_
 ```c
 uint32_t vsprintf(char* buf, const char* format, va_list arg)
 {
@@ -687,10 +688,10 @@ uint32_t vsprintf(char* buf, const char* format, va_list arg)
     return c;
 }
 ```
-
+#
 최소한의 기능만 구현한 vsprintf() 코드입니다.
-
->stdio.h
+#
+_stdio.h_
 ```c
 /*
  * stdio.h
@@ -743,12 +744,12 @@ uint32_t utoa(char* buf, uint32_t val, utoa_t base)
     return c;
 }
 ```
-
+#
 utoa 함수를 구현합니다. 
 
 main.c에 printf()함수를 추가하겠습니다
 
->Main.c
+_Main.c_
 ```c
 #include "stdint.h"
 #include "HalUart.h"
@@ -789,13 +790,13 @@ static void Printf_test(void)
     debug_printf("dec=%u hex=%x\n", 0xff, 0xff);
 }
 ```
-
+#
 이후 make run을 동작시키면 에러가 뜰 것입니다.
 왜냐면 utoa()에서는 나머지, 나누기 연산이 쓰이지만 ARM은 기본적으로 나머지, 나누기 연산을 지원하는 하드웨어가 없다고 간주합니다. 그러므로 GCC가 이를 소프트웨어로 구현해놓은 라이브러리 함수로 자동으로 링킹해야 합니다. 
-
+#
 즉 makefile을 조금 수정하겠습니다. 
-
->`Makefile`
+#
+_Makefile_
 ```bash
 ARCH = armv7-a
 MCPU = cortex-a8
@@ -845,14 +846,14 @@ build/%.o: %.c
 	mkdir -p $(shell dirname $@)
 	$(CC) -march=$(ARCH) -mcpu=$(MCPU) -marm $(INC_DIRS) $(CFLAGS) -o $@ $<
 ```
-
+#
 `make run`
-
-![](https://velog.velcdn.com/images/wbhaao/post/3967563b-dcbe-4491-b4b0-d74c61a32e3f/image.png)
-
+#
+![](https://velog.velcdn.com/images/wbhaao/post/3967563b-dcbe-4491-b4b0-d74c61a32e3f/image.png){:height="500"}
+#
 굳굳
-
->`지금까지 파일구조 입니다`
+#
+_지금까지 파일구조 입니다_
 ```
 .
 ├── ARMv7AR.h
