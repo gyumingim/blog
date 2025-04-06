@@ -87,6 +87,8 @@ blockquote {
 .article-thumbnail {
   display: none;
   position: absolute;
+  left:400px;
+  top:-2px;
   max-width: 140px;
   border: 1px solid #eee;
   z-index: 10;
