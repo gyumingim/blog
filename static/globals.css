@@ -7,7 +7,7 @@
     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   margin: 0;
   color: black;
-  word-break: break-word;
+  word-break: keep-all;
 }
 
 pre code {
