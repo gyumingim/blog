@@ -8,6 +8,16 @@ thumbnail: ""
 #
 ## 계기
 #
+<img src="../../static/image/LETTER1.png" height="350px">
+
+#
+<img src="../../static/image/LETTER2.png" height="350px">
+
+#
+<img src="../../static/image/LETTER3.png" height="350px">
+
+#
+
 노션에는 다양한 기능이 있고 그에 대한 단축키 또한 많습니다. 노션을 처음 사용할 때 단축키를 익히기 쉽지 않은데, 게임과 단축키를 합치면 더 쉽고 재밌게 익힐 수 있겠다는 생각으로 기획하게 되었습니다. 
 #
 (web) React.js / json
