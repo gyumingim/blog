@@ -46,16 +46,16 @@
             </h3>
         </a>
         <section>
-            {% for weekly in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="work/{{ loop.index }}">
+            {% for work in data %}
+                <a style="display: block; margin-bottom: 0.4rem;" href="work/{{ work.id }}">
                     <span>
-                        <b>{{ weekly.title }}:</b>
+                        <b>{{ work.title }}:</b>
                     </span>
                     <span>
-                        {{ weekly.subtitle }}
+                        {{ work.subtitle }}
                     </span>
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ weekly.date }}
+                        {{ work.date }}
                     </time>
                 </a>
             {% endfor %}
