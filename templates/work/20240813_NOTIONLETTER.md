@@ -38,7 +38,7 @@ thumbnail: ""
 
 #
 
-(web) React.js / json
+(game) Unity
 #
 (design) Aseprite
 #

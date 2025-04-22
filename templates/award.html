@@ -47,7 +47,7 @@
         </a>
         <section>
             {% for award in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="award/{{ award.id }}">
+                <a style="display: block; margin-bottom: 0.4rem;" href="{{ award.link }}">
                     <span>
                         <b>{{ award.title }}:</b>
                     </span>

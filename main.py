@@ -154,10 +154,6 @@ def article_detail(article_id: int):
 def work_detail(work_id: int):
     return get_content_detail(work_id, "work")
 
-@app.get("/award/{award_id}")
-def award_detail(award_id: int):
-    return get_content_detail(award_id, "award")
-
 # 서버 실행 코드
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
