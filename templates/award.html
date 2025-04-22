@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -40,38 +41,37 @@
             </h3>
         </a>
         <a href="award">
-            <h3 style="margin-bottom: .5rem; border: solid #D0D0D0 0.5px;">
-                Awards ↘
+            <h3 style="margin-bottom: .5rem; border: solid #D0D0D0 0.5px; border: solid black 1px;">
+                Awards
             </h3>
         </a>
+        <section>
+            {% for award in data %}
+                <a style="display: block; margin-bottom: 0.4rem;" href="award/{{ award.id }}">
+                    <span>
+                        <b>{{ award.title }}:</b>
+                    </span>
+                    <span>
+                        {{ award.subtitle }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ award.date }}
+                    </time>
+                </a>
+            {% endfor %}
+        </section>
         <a href="work">
             <h3 style="margin-bottom: .5rem; border: solid #D0D0D0 0.5px;">
                 Works ↘
             </h3>
         </a>
-        <h3 style="margin-bottom: .5rem; border: solid #D0D0D0 0.5px; border: solid black 1px;">
-            Article
-        </h3>
-        <section>
-            {% for article in data %}
-                <div class="article-container">
-                    <a style="display: block; margin-bottom: 0.4rem;" href="article/{{ article.id }}" class="article-link">
-                        <span>
-                            <b>{{ article.title }}:</b>
-                        </span>
-                        <span>
-                            {{ article.subtitle }}
-                        </span>
-                        <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                            {{ article.date }}
-                        </time>
-                        <!-- {% if article.thumbnail %}
-                        <img src="{{ article.thumbnail }}" alt="{{ article.title }}" class="article-thumbnail" />
-                        {% endif %} -->
-                    </a>
-                </div>
-            {% endfor %}
-        </section>
+        <a href="article">
+            <h3 style="margin-bottom: .5rem; border: solid #D0D0D0 0.5px;">
+                Article ↘
+            </h3>
+        </a>
+        
+        
     </main>
     <footer style="font-size: .8rem; color: #767676;">
         © 2025 김규민
