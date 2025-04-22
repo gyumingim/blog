@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <title>김규민 gyumingim</title>
     <meta name="google-site-verification" content="zgBBQeNqU-wJXHJtJuras3Ujf0a9y22vRA65kaqkFWc" />
@@ -25,8 +25,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../static/globals.css" />
 </head>
+
 <body>
-    <header >
+    <header>
         <nav>
             <a href="/">
                 <h2 style="display: inline-block;">김규민</h2>
@@ -35,46 +36,45 @@
         </nav>
     </header>
     <main>
-        <a href="/">
-            <h3 style="margin-bottom: .5rem; border: solid #E0E0E0 0.5px;">
-                About ↘
-            </h3>
-        </a>
-        <a href="award">
-            <h3 style="margin-bottom: .5rem; border: solid #E0E0E0 0.5px; border: solid black 1px;">
+        <div class="header-container">
+            <a href="/">
+                <h3 style="margin-bottom: .5rem;   display: inline-block;">
+                    About ↘
+                </h3>
+            </a>
+            <h3 style="margin-bottom: .5rem;    display: inline-block;  color: white; background-color: black;">
                 Awards
             </h3>
-        </a>
+            <a href="work">
+                <h3 style="margin-bottom: .5rem;   display: inline-block;">
+                    Works ↘
+                </h3>
+            </a>
+            <a href="article">
+                <h3 style="margin-bottom: .5rem;   display: inline-block;">
+                    Article ↘
+                </h3>
+            </a>
+        </div>
         <section>
             {% for award in data %}
-                <a style="display: block; margin-bottom: 0.4rem;" href="{{ award.link }}">
-                    <span>
-                        <b>{{ award.title }}:</b>
-                    </span>
-                    <span>
-                        {{ award.subtitle }}
-                    </span>
-                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ award.date }}
-                    </time>
-                </a>
+            <a style="display: block; margin-bottom: 0.4rem;" href="{{ award.link }}">
+                <span>
+                    <b>{{ award.title }}:</b>
+                </span>
+                <span>
+                    {{ award.subtitle }}
+                </span>
+                <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                    {{ award.date }}
+                </time>
+            </a>
             {% endfor %}
         </section>
-        <a href="work">
-            <h3 style="margin-bottom: .5rem; border: solid #E0E0E0 0.5px;">
-                Works ↘
-            </h3>
-        </a>
-        <a href="article">
-            <h3 style="margin-bottom: .5rem; border: solid #E0E0E0 0.5px;">
-                Article ↘
-            </h3>
-        </a>
-        
-        
     </main>
     <footer style="font-size: .8rem; color: #767676;">
         © 2025 김규민
     </footer>
 </body>
+
 </html>

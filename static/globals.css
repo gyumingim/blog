@@ -97,3 +97,11 @@ blockquote {
 .article-container:hover .article-thumbnail {
   display: block;
 }
+
+.header-container * {
+  margin-right: 12px;
+}
+
+.header-container > h3 {
+  margin-right: 24px;
+}
