@@ -1,6 +1,6 @@
 ---
 id: 5
-title: "Notion Letter"
+title: "[프젝] Notion Letter"
 subtitle: "전하지 못한 러브레터"
 date: "2024.08.13"
 thumbnail: ""
