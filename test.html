@@ -1,0 +1,38 @@
+<html>
+<body>
+  <div class="container row">
+    <div class="one">one</div>
+    <div class="two">two</div>
+    <div class="three">three</div>
+  </div>
+  <div class="container column">
+    <div class="one">one</div>
+    <div class="two">two</div>
+    <div class="three">three</div>
+  </div>
+  <style>
+    .container {
+      display: flex;
+      justify-content: end;
+      height: 300px;
+      border: 10px solid red;
+      margin: 10px;
+    }
+    .column {
+        flex-direction: column;
+    }
+    .row {
+        flex-direction: row;
+    }
+    .one {
+      border: 10px solid blue;
+    }
+    .two {
+      border: 10px solid green;
+    }
+    .three {
+      border: 10px solid pink;
+    }
+  </style>
+</body>
+</html>
