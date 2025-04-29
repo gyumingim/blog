@@ -72,11 +72,11 @@ br {
 }
 
 blockquote {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  background-color: #eee;
   margin: 10px;
   margin: 10px;
   padding: 10px;
+  border-radius: 4px;
 }
 
 /* Article thumbnail hover styles */

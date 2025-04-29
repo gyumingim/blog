@@ -1,5 +1,5 @@
 ---
-id: 26
+id: 27
 title: "[공부] 전역 상태 관리 라이브러리 개념 정리"
 subtitle: "(Recoil Jotai) (Zustand  Redux-Toolkit) (React Query)"
 date: "2025.04.15"
@@ -11,6 +11,8 @@ thumbnail: ""
 #
 전역 상태 관리 라이브러리의 특징을 Deep Dive 해보면서 바운더리 V2에 뭘 쓸지 정해봅시다
 #
+---
+#
 ## Redux Toolkit Deep Dive
 #
 1. Redux 공식 팀이 만든, Redux 사용을 빠르고 쉽게 만들어주는 공식 추천 도구입니다.
@@ -21,21 +23,20 @@ thumbnail: ""
 1. action type을 문자열로 직접 선언하고
 2. action creator 함수를 별도로 만들고
 3. reducer에서 switch 문을 쓰고
-4. 비동기 작업은 thunk 같은 미들웨어를 직접 설정해야 했습니다
+4. 비동기 작업은 thunk 같은 미들웨어를 직접 설정해야 했다
 #
 → 버그 나기 매우 쉽고, 보일러 플레이트 코드가 상당히 많음
-
 #
 ### Toolkit을 쓰면 좋은 점
 #
 1. action type/action creator/reducer 코드 따로따로 써야 함
-    - **createSlice**로 한 파일에 묶기
+    - createSlice로 한 파일에 묶기
 2. 비동기 처리 설정이 복잡함
-    - **createAsyncThunk**로 쉽게 비동기 액션 작성
+    - createAsyncThunk로 쉽게 비동기 액션 작성
 3. immer 없이 직접 불변성 관리를 해야 함
     - immer 기본 내장, 직접 수정하는 것처럼 코딩 가능
 4. 스토어 설정 귀찮음 (applyMiddleware, compose 등)
-    - **configureStore**로 알아서 다 설정
+    - configureStore로 알아서 다 설정
 5. redux-devtools 설정 귀찮음
     - 자동 devtools 연결
 #
@@ -44,41 +45,50 @@ thumbnail: ""
 1. configureStore
     - 스토어를 쉽게 만들 수 있습니다
     - 미들웨어, devtools 세팅이 자동입니다
-    - ```ts
-        import { configureStore } from '@reduxjs/toolkit'
+    
 
-        const store = configureStore({
-            reducer: rootReducer,
-        })
-      ```
+```ts
+    import { configureStore } from '@reduxjs/toolkit'
+
+    const store = configureStore({
+        reducer: rootReducer,
+    })
+```
+
 2. createSlice
     - action type, action creator, reducer를 한 번에 정의합니다
-    - ```ts
-        import { createSlice } from '@reduxjs/toolkit'
+    
 
-        const counterSlice = createSlice({
-        name: 'counter',
-        initialState: 0,
-        reducers: {
-            increment: state => state + 1,
-            decrement: state => state - 1
-        }
-        })
+```ts
+    import { createSlice } from '@reduxjs/toolkit'
 
-        export const { increment, decrement } = counterSlice.actions
-        export default counterSlice.reducer
-      ```
+    const counterSlice = createSlice({
+    name: 'counter',
+    initialState: 0,
+    reducers: {
+        increment: state => state + 1,
+        decrement: state => state - 1
+    }
+    })
+
+    export const { increment, decrement } = counterSlice.actions
+    export default counterSlice.reducer
+```
+
 3. createAsyncThunk
     - 비동기 API 호출을 아주 간단하게 처리할 수 있습니다
-    - ```ts
-        import { createAsyncThunk } from '@reduxjs/toolkit'
 
-        export const fetchUser = createAsyncThunk('user/fetch', async (userId) => {
-            const response = await fetch(`/api/user/${userId}`)
-            return response.json()
-        })
 
-      ```
+```ts
+    import { createAsyncThunk } from '@reduxjs/toolkit'
+
+    export const fetchUser = createAsyncThunk('user/fetch', async (userId) => {
+        const response = await fetch(`/api/user/${userId}`)
+        return response.json()
+    })
+
+```
+
 4. createEntityAdapter
     - 목록(배열) 상태 관리(ex. 사용자 리스트)에 특화된 도구입니다.
     - CRUD 작업이 깔끔해집니다.
@@ -100,6 +110,8 @@ thumbnail: ""
 1. 소규모 프로젝트와 맞지 않음
 2. 폴더 구조 설계가 중요하다
 3. RTK Query까지 쓰면 구조가 복잡해질 수 있다
+#
+---
 #
 ## Zustand
 #
@@ -152,6 +164,8 @@ export default function Counter() {
   )
 }
 ```
+#
+---
 #
 ## Recoil
 #
@@ -242,6 +256,8 @@ export default function App() {
 }
 ```
 #
+---
+#
 ## Jotai
 #
 Jotai는 React 전용의 원자(atom) 기반(state atomization) 상태 관리 라이브러리로, core API가 단 2KB에 불과할 만큼 경량이며, atom·useAtom·Provider 같은 최소한의 함수만으로 상태를 선언하고 관리할 수 있습니다 
@@ -296,6 +312,8 @@ export function Counter() {
   );
 }
 ```
+#
+---
 #
 ## React Query
 #
@@ -391,7 +409,9 @@ export default function App() {
 }
 ```
 #
-### 그래서 뭐씀?
+---
+#
+## 그래서 뭐씀?
 #
 Jotai + React Query를 쓸 것이다.
 (부마위키에서도 쓰인 검증된 조합)
