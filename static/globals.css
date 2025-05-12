@@ -104,10 +104,10 @@ blockquote {
 
 .download-btn {
   display: flex;
-  width: 166px;
+  width: fit-content;
   align-items: center;
   font-size: 0.8rem;
-  padding: 2px 2px;
+  padding: 2px 4px 2px 1px;
   background-color: #f2f2f2;
   border: 1px solid #ccc;
   border-radius: 4px;
