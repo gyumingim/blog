@@ -20,14 +20,16 @@ html {
 
 @media screen and (max-width: 900px) {
   html {
-    font-size: 10px !important;
+    font-size: 16px !important;
   }
 }
 
 a {
   text-decoration: none;
   color: #005ccc;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 a:hover {
@@ -81,8 +83,8 @@ blockquote {
 .article-thumbnail {
   display: none;
   position: absolute;
-  left:400px;
-  top:-2px;
+  left: 400px;
+  top: -2px;
   max-width: 140px;
   border: 1px solid #eee;
   z-index: 10;
@@ -96,6 +98,27 @@ blockquote {
   margin-right: 6px;
 }
 
-.header-container > h3 {
+.header-container>h3 {
   margin-right: 18px;
+}
+
+.download-btn {
+  display: flex;
+  width: 166px;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 2px 2px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-family: sans-serif;
+  cursor: pointer;
+}
+
+.download-btn img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
 }
