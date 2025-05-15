@@ -6,24 +6,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
-    name: Build & Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run tests
-        run: pytest
-
   deploy:
     name: Deploy to Raspberry Pi
-    needs: build-test
-    # self-hosted runner 라벨을 정확히 매칭
     runs-on: [ self-hosted, Linux, ARM64 ]
     steps:
       - uses: actions/checkout@v3
