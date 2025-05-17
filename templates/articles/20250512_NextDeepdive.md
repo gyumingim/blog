@@ -1,8 +1,8 @@
 ---
-id: 29
-title: "[공부] Deepdive in JS"
-subtitle: "JS를 마스터해봅시다"
-date: "2025.05.11 ⭐"
+id: 31
+title: "[공부] Deepdive in Next.js"
+subtitle: "Next.js를 마스터해봅시다"
+date: "2025.05.15"
 thumbnail: ""
 ---
 #
