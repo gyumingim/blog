@@ -42,9 +42,11 @@
                     About ↘
                 </h3>
             </a>
-            <h3 style="margin-bottom: .5rem;    display: inline-block;  color: white; background-color: black;">
-                Awards
-            </h3>
+            <a href="award">
+                <h3 style="margin-bottom: .5rem;   display: inline-block;">
+                    Awards ↘
+                </h3>
+            </a>
             <a href="work">
                 <h3 style="margin-bottom: .5rem;   display: inline-block;">
                     Works ↘
@@ -55,25 +57,25 @@
                     Article ↘
                 </h3>
             </a>
-            <a href="book">
-                <h3 style="margin-bottom: .5rem;   display: inline-block;">
-                    Books ↘
-                </h3>
-            </a>
+            <h3 style="margin-bottom: .5rem;   display: inline-block; color: white; background-color: black;">
+                Books
+            </h3>
         </div>
         <section>
-            {% for award in data %}
-            <a style="display: block; margin-bottom: 0.4rem;" href="{{ award.link }}">
-                <span>
-                    <b>{{ award.title }}:</b>
-                </span>
-                <span>
-                    {{ award.subtitle }}
-                </span>
-                <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                    {{ award.date }}
-                </time>
-            </a>
+            {% for book in data %}
+            <div class="article-container">
+                <a style="display: block; margin-bottom: 0.4rem;" href="book/{{ book.id }}" class="article-link">
+                    <span>
+                        <b>{{ book.title }}:</b>
+                    </span>
+                    <span>
+                        {{ book.subtitle }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ book.date }}
+                    </time>
+                </a>
+            </div>
             {% endfor %}
         </section>
     </main>
@@ -82,4 +84,4 @@
     </footer>
 </body>
 
-</html>
+</html> 

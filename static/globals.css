@@ -24,12 +24,16 @@ pre code {
 }
 
 html {
-  font-size: 1.25rem !important;
+  font-size: 1.125rem !important;
 }
 
 @media screen and (max-width: 900px) {
   html {
-    font-size: 1.25rem !important;
+    font-size: 1.125rem !important;
+  }
+
+  body {
+    margin: 0.75rem 0.75rem !important;
   }
 }
 

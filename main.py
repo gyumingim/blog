@@ -20,6 +20,7 @@ templates = Jinja2Templates(directory="templates")
 articles_dir = "./templates/articles"
 work_dir = "./templates/work"
 awards_dir = "./templates/awards"
+books_dir = "./templates/books"
 
 # 데이터 및 HTML 캐시 저장소
 articles_data = []
@@ -28,6 +29,8 @@ work_data = []
 work_html = {}
 awards_data = []
 awards_html = {}
+books_data = []
+books_html = {}
 
 # 숫자 순서대로 정렬하기 위한 함수 (역순)
 def natural_sort_key(s):
@@ -75,11 +78,13 @@ def load_content_data(directory, data_list, html_cache):
 load_content_data(articles_dir, articles_data, articles_html)
 load_content_data(work_dir, work_data, work_html)
 load_content_data(awards_dir, awards_data, awards_html)
+load_content_data(books_dir, books_data, books_html)
 
 # ID 기준으로 데이터 정렬 (내림차순)
 articles_data.sort(key=lambda x: -int(x['id']))
 work_data.sort(key=lambda x: -int(x['id']))
 awards_data.sort(key=lambda x: -int(x['id']))
+books_data.sort(key=lambda x: -int(x['id']))
 
 app = FastAPI()
 
@@ -112,6 +117,10 @@ def work_list():
 def award_list():
     return templates.TemplateResponse("award.html", {"request": {}, "data": awards_data})
 
+@app.get("/book")
+def book_list():
+    return templates.TemplateResponse("book.html", {"request": {}, "data": books_data})
+
 # 통합된 콘텐츠 상세 페이지 처리 함수
 def get_content_detail(content_id, content_type):
     if content_type == "article":
@@ -123,6 +132,9 @@ def get_content_detail(content_id, content_type):
     elif content_type == "award":
         data_list, html_cache = awards_data, awards_html
         template_name, key = "award_one.html", "award_number"
+    elif content_type == "book":
+        data_list, html_cache = books_data, books_html
+        template_name, key = "book_one.html", "book_number"
     else:
         raise HTTPException(status_code=404, detail="Invalid content type")
 
@@ -153,6 +165,10 @@ def article_detail(article_id: int):
 @app.get("/work/{work_id}")
 def work_detail(work_id: int):
     return get_content_detail(work_id, "work")
+
+@app.get("/book/{book_id}")
+def book_detail(book_id: int):
+    return get_content_detail(book_id, "book")
 
 # 서버 실행 코드
 if __name__ == "__main__":
