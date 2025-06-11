@@ -1,7 +1,7 @@
 ---
 id: 3
 title: "[독서] 케이크를 자르지 못하는 아이들"
-subtitle: "홋타 슈고"
+subtitle: "미야구치 코지"
 date: "2023.01.28"
 thumbnail: "CleanCode.png"
 ---

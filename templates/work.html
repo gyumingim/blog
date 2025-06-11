@@ -63,17 +63,19 @@
         </div>
         <section>
             {% for work in data %}
-            <a style="display: block; margin-bottom: 0.4rem;" href="work/{{ work.id }}">
-                <span>
-                    <b>{{ work.title }}:</b>
-                </span>
-                <span>
-                    {{ work.subtitle }}
-                </span>
-                <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                    {{ work.date }}
-                </time>
-            </a>
+            <div class="article-container">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="work/{{ work.id }}">
+                    <span>
+                        <b>{{ work.title }}:</b>
+                    </span>
+                    <span>
+                        {{ work.subtitle }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ work.date }}
+                    </time>
+                </a>
+            </div>
             {% endfor %}
         </section>
     </main>

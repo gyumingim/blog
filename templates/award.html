@@ -63,17 +63,19 @@
         </div>
         <section>
             {% for award in data %}
-            <a style="display: block; margin-bottom: 0.4rem;" href="{{ award.link }}">
-                <span>
-                    <b>{{ award.title }}:</b>
-                </span>
-                <span>
-                    {{ award.subtitle }}
-                </span>
-                <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                    {{ award.date }}
-                </time>
-            </a>
+            <div class="article-container">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="{{ award.link }}">
+                    <span>
+                        <b>{{ award.title }}:</b>
+                    </span>
+                    <span>
+                        {{ award.subtitle }}
+                    </span>
+                    <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
+                        {{ award.date }}
+                    </time>
+                </a>
+            </div>
             {% endfor %}
         </section>
     </main>

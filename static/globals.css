@@ -24,7 +24,7 @@ pre code {
 }
 
 html {
-  font-size: 1.125rem !important;
+  font-size: 1.35rem !important;
 }
 
 @media screen and (max-width: 900px) {
@@ -55,7 +55,7 @@ body {
 
 main {
   margin: 2rem 0;
-  max-width: 50rem;
+  max-width: 42rem;
 }
 
 section {
@@ -91,6 +91,20 @@ blockquote {
 /* Article thumbnail hover styles */
 .article-container {
   position: relative;
+}
+
+.article-container:hover {
+  background-color: black;
+}
+
+.article-container:hover span b  {
+  color: white;
+}
+.article-container:hover span  {
+  color: white;
+}
+.article-container:hover time  {
+  color: white;
 }
 
 .article-thumbnail {
@@ -155,3 +169,8 @@ table td {
 hr {
   margin-top: 3rem;
 }
+
+.header-container a.active h3 {
+            color: white;
+            background-color: black;
+        }

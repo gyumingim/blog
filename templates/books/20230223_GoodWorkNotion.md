@@ -1,7 +1,7 @@
 ---
 id: 6
 title: "[독서] 일잘러는 노션으로 일합니다"
-subtitle: "조병영 외 6명"
+subtitle: "김대중"
 date: "2023.02.23"
 thumbnail: "CleanCode.png"
 ---

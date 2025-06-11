@@ -1,6 +1,6 @@
 ---
 id: 2
-title: "[독서] 나는 왜 생각이 많을까?"
+title: "[독서] 미야구치 코지"
 subtitle: "홋타 슈고"
 date: "2023.01.28"
 thumbnail: "CleanCode.png"
