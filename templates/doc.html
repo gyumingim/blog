@@ -43,9 +43,11 @@
                 </span>
             </a>
             <span class="nav-separator">/</span>
-            <span class="nav-current">
-                🏆Awards
-            </span>
+            <a href="award">
+                <span class="nav-link">
+                    🏆Awards
+                </span>
+            </a>
             <span class="nav-separator">/</span>
             <a href="work">
                 <span class="nav-link">
@@ -77,24 +79,22 @@
                 </span>
             </a>
             <span class="nav-separator">/</span>
-            <a href="doc">
-                <span class="nav-link">
-                    📚Docs
-                </span>
-            </a>
+            <span class="nav-current">
+                📚Docs
+            </span>
         </div>
         <section>
-            {% for award in data %}
+            {% for doc in data %}
             <div class="article-container">
-                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="{{ award.link }}">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="doc/{{ doc.id }}" class="article-link">
                     <span>
-                        <b>{{ award.title }}:</b>
+                        <b>{{ doc.title }}:</b>
                     </span>
                     <span>
-                        {{ award.subtitle }}
+                        {{ doc.subtitle }}
                     </span>
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ award.date }}
+                        {{ doc.date }}
                     </time>
                 </a>
             </div>
@@ -106,4 +106,4 @@
     </footer>
 </body>
 
-</html>
+</html> 

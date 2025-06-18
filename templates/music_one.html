@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>{{ data.title }}</title>
+    <meta name="google-site-verification" content="zgBBQeNqU-wJXHJtJuras3Ujf0a9y22vRA65kaqkFWc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="풀스택 개발자 김규민의 블로그입니다. 사이드 프로젝트, 개발 팁, 독창적인 아이디어와 다양한 기술 이야기를 공유합니다.">
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://www.gyumingim.kro.kr">
+    <link rel="icon" href="https://www.gyumingim.kro.kr/static/image/Profile.ico" type="image/x-icon">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="김규민의 블로그">
+    <meta property="og:description" content="풀스택 개발자 김규민의 사이드 프로젝트와 다양한 개발 이야기를 공유합니다.">
+    <meta property="og:image" content="https://www.gyumingim.kro.kr/static/image/Profile.png">
+    <meta property="og:url" content="https://www.gyumingim.kro.kr">
+    <meta property="og:type" content="website">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="김규민의 블로그">
+    <meta name="twitter:description" content="풀스택 개발자 김규민의 사이드 프로젝트와 다양한 개발 이야기를 공유합니다.">
+    <meta name="twitter:image" content="https://www.gyumingim.kro.kr/static/image/Profile.png">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/normalize.css">
+    <link rel="stylesheet" href="../static/globals.css" />
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script> 
+    <!-- and it's easy to individually load additional languages --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script> 
+    <script>hljs.highlightAll();</script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">
+                <h2 style="display: inline-block;">김규민</h2>
+                <span>gyumingim</span>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div style="margin-bottom: 1rem;">
+            <a href="/music">
+                <span style="margin-bottom: .5rem; ">
+                    ← Musics
+                </span>
+            </a>
+        </div>
+
+        <h2 style="font-weight: 800; font-size: 2rem; margin-bottom: 0.3rem;">{{ data.title }}</h2>
+        <span style="font-size: 1.2rem; margin-right: 0.4rem;">{{ data.subtitle }}</span>
+        <time style="font-family:RobotoMono,monospace; font-size: .8rem;">{{ data.date }}</time>
+        <section style="margin-top: 5rem ">
+            <article>
+                {{ html|safe }}
+            </article>
+        </section>
+        <section style="margin-top: 50px; overflow: hidden;">
+            {% if back %}
+            <div style="margin-bottom: 1rem; text-align: left; float: left; margin-right: 5px;">
+                <a href="{{ music_number-1 }}" style="color: #000; text-decoration: none; cursor: pointer;">
+                    <div
+                        style="font-family: Pretendard,sans-serif; font-size: .9rem; text-align: left; float: left; margin-right: 5px;">
+                        ←
+                    </div>
+                    <div style="text-align: left; float: left; margin-right: 5px;">
+                        <p style="font-weight: 700; font-size: 1rem; margin: 0;">
+                            {{ back.title }}
+                        </p>
+                        <p style="font-weight: 400; font-size: .8rem; margin: 0;">
+                            {{ back.subtitle }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+            {% if front %}
+            <div style="margin-bottom: 1rem; text-align: right; float: right; margin-left: 5px;">
+                <a href="{{ music_number+1 }}" style="color: #000; text-decoration: none; cursor: pointer;">
+                    <div style="font-family: Pretendard,sans-serif; font-size: .9rem; text-align: right; float: right; margin-left: 5px;">
+                        →
+                    </div>
+                    <div style="text-align: right; float: right; margin-left: 5px;">
+                        <p style="font-weight: 700; font-size: 1rem; margin: 0;">
+                            {{ front.title }}
+                        </p>
+                        <p style="font-weight: 400; font-size: .8rem; margin: 0;">
+                            {{ front.subtitle }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+    <footer style="font-size: .8rem; color: #767676;">
+        © 2025 김규민
+    </footer>
+</body>
+</html> 

@@ -26,7 +26,7 @@ pre code {
 }
 
 html {
-  font-size: 1.35rem !important;
+  font-size: 1.125rem !important;
 }
 
 @media screen and (max-width: 900px) {
@@ -56,7 +56,6 @@ body {
 }
 
 main {
-  margin: 2rem 0;
   max-width: 42rem;
 }
 
@@ -123,14 +122,6 @@ blockquote {
   display: block;
 }
 
-.header-container * {
-  margin-right: 6px;
-}
-
-.header-container>h3 {
-  margin-right: 18px;
-}
-
 .download-btn {
   display: flex;
   width: fit-content;
@@ -172,7 +163,43 @@ hr {
   margin-top: 3rem;
 }
 
+.header-container {
+  margin-bottom: 3rem;
+}
+
+/* 헤더 네비게이션 스타일 */
+.nav-title {
+  display: inline-block;
+  font-size: 1.6rem;
+}
+
+.nav-link {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin: 0;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #005ccc;
+}
+
+.nav-separator {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.nav-current {
+  display: inline-block;
+  color: white;
+  background-color: black;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
 .header-container a.active h3 {
-            color: white;
-            background-color: black;
-        }
+    color: white;
+    background-color: black;
+}

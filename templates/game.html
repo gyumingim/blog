@@ -43,9 +43,11 @@
                 </span>
             </a>
             <span class="nav-separator">/</span>
-            <span class="nav-current">
-                🏆Awards
-            </span>
+            <a href="award">
+                <span class="nav-link">
+                    🏆Awards
+                </span>
+            </a>
             <span class="nav-separator">/</span>
             <a href="work">
                 <span class="nav-link">
@@ -65,11 +67,9 @@
                 </span>
             </a>
             <span class="nav-separator">/</span>
-            <a href="game">
-                <span class="nav-link">
-                    🎮Games
-                </span>
-            </a>
+            <span class="nav-current">
+                🎮Games
+            </span>
             <span class="nav-separator">/</span>
             <a href="music">
                 <span class="nav-link">
@@ -84,17 +84,17 @@
             </a>
         </div>
         <section>
-            {% for award in data %}
+            {% for game in data %}
             <div class="article-container">
-                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="{{ award.link }}">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="game/{{ game.id }}" class="article-link">
                     <span>
-                        <b>{{ award.title }}:</b>
+                        <b>{{ game.title }}:</b>
                     </span>
                     <span>
-                        {{ award.subtitle }}
+                        {{ game.subtitle }}
                     </span>
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
-                        {{ award.date }}
+                        {{ game.date }}
                     </time>
                 </a>
             </div>
@@ -106,4 +106,4 @@
     </footer>
 </body>
 
-</html>
+</html> 

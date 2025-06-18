@@ -21,6 +21,9 @@ articles_dir = "./templates/articles"
 work_dir = "./templates/work"
 awards_dir = "./templates/awards"
 books_dir = "./templates/books"
+games_dir = "./templates/games"
+musics_dir = "./templates/musics"
+docs_dir = "./templates/docs"
 
 # 데이터 및 HTML 캐시 저장소
 articles_data = []
@@ -31,6 +34,12 @@ awards_data = []
 awards_html = {}
 books_data = []
 books_html = {}
+games_data = []
+games_html = {}
+musics_data = []
+musics_html = {}
+docs_data = []
+docs_html = {}
 
 # 숫자 순서대로 정렬하기 위한 함수 (역순)
 def natural_sort_key(s):
@@ -79,12 +88,18 @@ load_content_data(articles_dir, articles_data, articles_html)
 load_content_data(work_dir, work_data, work_html)
 load_content_data(awards_dir, awards_data, awards_html)
 load_content_data(books_dir, books_data, books_html)
+load_content_data(games_dir, games_data, games_html)
+load_content_data(musics_dir, musics_data, musics_html)
+load_content_data(docs_dir, docs_data, docs_html)
 
 # ID 기준으로 데이터 정렬 (내림차순)
 articles_data.sort(key=lambda x: -int(x['id']))
 work_data.sort(key=lambda x: -int(x['id']))
 awards_data.sort(key=lambda x: -int(x['id']))
 books_data.sort(key=lambda x: -int(x['id']))
+games_data.sort(key=lambda x: -int(x['id']))
+musics_data.sort(key=lambda x: -int(x['id']))
+docs_data.sort(key=lambda x: -int(x['id']))
 
 app = FastAPI()
 
@@ -121,6 +136,18 @@ def award_list():
 def book_list():
     return templates.TemplateResponse("book.html", {"request": {}, "data": books_data})
 
+@app.get("/game")
+def game_list():
+    return templates.TemplateResponse("game.html", {"request": {}, "data": games_data})
+
+@app.get("/music")
+def music_list():
+    return templates.TemplateResponse("music.html", {"request": {}, "data": musics_data})
+
+@app.get("/doc")
+def doc_list():
+    return templates.TemplateResponse("doc.html", {"request": {}, "data": docs_data})
+
 # 통합된 콘텐츠 상세 페이지 처리 함수
 def get_content_detail(content_id, content_type):
     if content_type == "article":
@@ -135,6 +162,15 @@ def get_content_detail(content_id, content_type):
     elif content_type == "book":
         data_list, html_cache = books_data, books_html
         template_name, key = "book_one.html", "book_number"
+    elif content_type == "game":
+        data_list, html_cache = games_data, games_html
+        template_name, key = "game_one.html", "game_number"
+    elif content_type == "music":
+        data_list, html_cache = musics_data, musics_html
+        template_name, key = "music_one.html", "music_number"
+    elif content_type == "doc":
+        data_list, html_cache = docs_data, docs_html
+        template_name, key = "doc_one.html", "doc_number"
     else:
         raise HTTPException(status_code=404, detail="Invalid content type")
 
@@ -169,6 +205,18 @@ def work_detail(work_id: int):
 @app.get("/book/{book_id}")
 def book_detail(book_id: int):
     return get_content_detail(book_id, "book")
+
+@app.get("/game/{game_id}")
+def game_detail(game_id: int):
+    return get_content_detail(game_id, "game")
+
+@app.get("/music/{music_id}")
+def music_detail(music_id: int):
+    return get_content_detail(music_id, "music")
+
+@app.get("/doc/{doc_id}")
+def doc_detail(doc_id: int):
+    return get_content_detail(doc_id, "doc")
 
 # 서버 실행 코드
 if __name__ == "__main__":
