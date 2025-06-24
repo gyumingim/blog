@@ -40,11 +40,6 @@
         </nav>
     </header>
     <main style="margin: 1rem auto;">
-        {% if thumbnail %}
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="/{{ thumbnail }}" alt="썸네일" style="height:400px; object-fit:contain; display:inline-block;" />
-        </div>
-        {% endif %}
         <div style="margin-bottom: 1rem;">
             <a href="/article">
                 <span style="margin-bottom: .5rem; ">
@@ -52,10 +47,14 @@
                 </span>
             </a>
         </div>
-
-        <h2 style="font-weight: 800; font-size: 2rem; margin-bottom: 0.3rem;">{{ data.title }}</h2>
+        <h2 class="main-title">{{ data.title }}</h2>
         <span style="font-size: 1.2rem; margin-right: 0.4rem;">{{ data.subtitle }}</span>
         <time style="font-family:RobotoMono,monospace; font-size: .8rem;">{{ data.date }}</time>
+        {% if thumbnail %}
+        <div style="text-align: center; margin: 1.5rem;">
+            <img src="/{{ thumbnail }}" alt="썸네일" style="height:300px; object-fit:contain; display:inline-block;" />
+        </div>
+        {% endif %}
         <section style="margin-top: 5rem ">
             <article>
                 {{ html|safe }}

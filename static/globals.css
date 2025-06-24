@@ -167,6 +167,12 @@ hr {
   margin-bottom: 2rem;
 }
 
+.main-title {
+  font-weight: 700; 
+  font-size: 2.5rem; 
+  margin-bottom: 0.7rem;
+}
+
 /* 헤더 네비게이션 스타일 */
 .nav-title {
   display: inline-block;
