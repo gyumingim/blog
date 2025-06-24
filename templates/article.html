@@ -85,8 +85,8 @@
         </div>
         <section>
             {% for article in data %}
-            <div class="article-container">
-                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="article/{{ article.id }}" class="article-link">
+            <div class="container">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="article/{{ article.id }}" class="link">
                     <span>
                         <b>{{ article.title }}:</b>
                     </span>
@@ -96,9 +96,9 @@
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
                         {{ article.date }}
                     </time>
-                    <!-- {% if article.thumbnail %}
-                        <img src="{{ article.thumbnail }}" alt="{{ article.title }}" class="article-thumbnail" />
-                        {% endif %} -->
+                    {% if article.thumbnail %}
+                        <img src="{{ article.thumbnail }}" alt="{{ article.title }}" class="thumbnail" />
+                    {% endif %}
                 </a>
             </div>
             {% endfor %}

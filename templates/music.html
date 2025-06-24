@@ -85,8 +85,8 @@
         </div>
         <section>
             {% for music in data %}
-            <div class="article-container">
-                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="music/{{ music.id }}" class="article-link">
+            <div class="container">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="music/{{ music.id }}" class="link">
                     <span>
                         <b>{{ music.title }}:</b>
                     </span>
@@ -96,6 +96,9 @@
                     <time style="font-family: RobotoMono,monospace; font-size: .8rem; font-weight: 400;">
                         {{ music.date }}
                     </time>
+                    {% if music.thumbnail %}
+                        <img src="{{ music.thumbnail }}" alt="{{ music.title }}" class="thumbnail" />
+                    {% endif %}
                 </a>
             </div>
             {% endfor %}

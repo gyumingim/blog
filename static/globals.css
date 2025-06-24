@@ -90,35 +90,35 @@ blockquote {
 }
 
 /* Article thumbnail hover styles */
-.article-container {
+.container {
   position: relative;
 }
 
-.article-container:hover {
+.container:hover {
   background-color: black;
 }
 
-.article-container:hover span b  {
+.container:hover span b  {
   color: white;
 }
-.article-container:hover span  {
+.container:hover span  {
   color: white;
 }
-.article-container:hover time  {
+.container:hover time  {
   color: white;
 }
 
-.article-thumbnail {
+.thumbnail {
   display: none;
   position: absolute;
-  left: 400px;
-  top: -2px;
+  right: 0px;
+  top: 0px;
   max-width: 140px;
   border: 1px solid #eee;
   z-index: 10;
 }
 
-.article-container:hover .article-thumbnail {
+.container:hover .thumbnail {
   display: block;
 }
 
