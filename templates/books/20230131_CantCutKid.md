@@ -3,7 +3,7 @@ id: 3
 title: "[독서] 케이크를 자르지 못하는 아이들"
 subtitle: "미야구치 코지"
 date: "2023.01.28"
-thumbnail: "CleanCode.png"
+thumbnail: "케이크를자르지못하는아이들.webp"
 ---
 #
 > 원래는 <span style="color:#62776c">**모든것이** 나아지는 기술</span>을 빌리려 했지만 이 책의 부제 <span style="color:#62776c">**모든것이** 왜곡되어 보이는 아이들의 놀라운 실상</span> 이 먼저 눈에 띄어 이책을 빌리게 됐다. 

@@ -1,9 +1,9 @@
 ---
 id: 2
-title: "[독서] 미야구치 코지"
+title: "[독서] 나는 왜 생각이 많을까?"
 subtitle: "홋타 슈고"
 date: "2023.01.28"
-thumbnail: "CleanCode.png"
+thumbnail: "나는왜생각이많을까.webp"
 ---
 #
 > [나는 왜 쓸데없는 생각을 많이 해서 삶을 피곤하게 하는 걸까? ⵏ 뇌과학](https://www.youtube.com/watch?v=hJ7w2FqPfBI) 을 보고 자세한 내용을 알고싶어 빌려봤다.

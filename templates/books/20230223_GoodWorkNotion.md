@@ -3,7 +3,7 @@ id: 6
 title: "[독서] 일잘러는 노션으로 일합니다"
 subtitle: "김대중"
 date: "2023.02.23"
-thumbnail: "CleanCode.png"
+thumbnail: "일잘러는노션으로일합니다.webp"
 ---
 #
 ## 정리

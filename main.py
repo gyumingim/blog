@@ -59,7 +59,7 @@ def parse_markdown_file(file_path):
     return {}, content
 
 # 콘텐츠 로드 함수 (재사용 가능)
-def load_content_data(directory, data_list, html_cache):
+def load_content_data(directory, data_list, html_cache, header_value):
     try:
         md_files = glob.glob(os.path.join(directory, "*.md"))
         md_files.sort(key=natural_sort_key)
@@ -75,6 +75,7 @@ def load_content_data(directory, data_list, html_cache):
                 continue
             if 'thumbnail' in metadata:
                 metadata['thumbnail'] = 'static/image/' + metadata['thumbnail']
+            metadata['header'] = header_value  # header 정보 추가
             data_list.append(metadata)
             content_number = int(metadata['id'])
             html_content = markdown.markdown(md_content, extensions=['fenced_code', 'extra'])
@@ -84,13 +85,13 @@ def load_content_data(directory, data_list, html_cache):
         print(f"디렉토리 처리 오류: {e}")
 
 # 콘텐츠 데이터 로드
-load_content_data(articles_dir, articles_data, articles_html)
-load_content_data(work_dir, work_data, work_html)
-load_content_data(awards_dir, awards_data, awards_html)
-load_content_data(books_dir, books_data, books_html)
-load_content_data(games_dir, games_data, games_html)
-load_content_data(musics_dir, musics_data, musics_html)
-load_content_data(docs_dir, docs_data, docs_html)
+load_content_data(articles_dir, articles_data, articles_html, "article")
+load_content_data(work_dir, work_data, work_html, "work")
+load_content_data(awards_dir, awards_data, awards_html, "award")
+load_content_data(books_dir, books_data, books_html, "book")
+load_content_data(games_dir, games_data, games_html, "game")
+load_content_data(musics_dir, musics_data, musics_html, "music")
+load_content_data(docs_dir, docs_data, docs_html, "doc")
 
 # ID 기준으로 데이터 정렬 (내림차순)
 articles_data.sort(key=lambda x: -int(x['id']))
@@ -122,55 +123,55 @@ def root():
 
 @app.get("/article")
 def article_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data, "header": "article"})
 
 @app.get("/work")
 def work_list():
-    return templates.TemplateResponse("work.html", {"request": {}, "data": work_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": work_data, "header": "work"})
 
 @app.get("/award")
 def award_list():
-    return templates.TemplateResponse("award.html", {"request": {}, "data": awards_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": awards_data, "header": "award"})
 
 @app.get("/book")
 def book_list():
-    return templates.TemplateResponse("book.html", {"request": {}, "data": books_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": books_data, "header": "book"})
 
 @app.get("/game")
 def game_list():
-    return templates.TemplateResponse("game.html", {"request": {}, "data": games_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": games_data, "header": "game"})
 
 @app.get("/music")
 def music_list():
-    return templates.TemplateResponse("music.html", {"request": {}, "data": musics_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": musics_data, "header": "music"})
 
 @app.get("/doc")
 def doc_list():
-    return templates.TemplateResponse("doc.html", {"request": {}, "data": docs_data})
+    return templates.TemplateResponse("article.html", {"request": {}, "data": docs_data, "header": "doc"})
 
 # 통합된 콘텐츠 상세 페이지 처리 함수
 def get_content_detail(content_id, content_type):
-    if content_type == "article":
+    if True:
         data_list, html_cache = articles_data, articles_html
         template_name, key = "article_one.html", "article_number"
-    elif content_type == "work":
-        data_list, html_cache = work_data, work_html
-        template_name, key = "work_one.html", "work_number"
-    elif content_type == "award":
-        data_list, html_cache = awards_data, awards_html
-        template_name, key = "award_one.html", "award_number"
-    elif content_type == "book":
-        data_list, html_cache = books_data, books_html
-        template_name, key = "book_one.html", "book_number"
-    elif content_type == "game":
-        data_list, html_cache = games_data, games_html
-        template_name, key = "game_one.html", "game_number"
-    elif content_type == "music":
-        data_list, html_cache = musics_data, musics_html
-        template_name, key = "music_one.html", "music_number"
-    elif content_type == "doc":
-        data_list, html_cache = docs_data, docs_html
-        template_name, key = "doc_one.html", "doc_number"
+    # elif content_type == "work":
+    #     data_list, html_cache = work_data, work_html
+    #     template_name, key = "work_one.html", "work_number"
+    # elif content_type == "award":
+    #     data_list, html_cache = awards_data, awards_html
+    #     template_name, key = "award_one.html", "award_number"
+    # elif content_type == "book":
+    #     data_list, html_cache = books_data, books_html
+    #     template_name, key = "book_one.html", "book_number"
+    # elif content_type == "game":
+    #     data_list, html_cache = games_data, games_html
+    #     template_name, key = "game_one.html", "game_number"
+    # elif content_type == "music":
+    #     data_list, html_cache = musics_data, musics_html
+    #     template_name, key = "music_one.html", "music_number"
+    # elif content_type == "doc":
+    #     data_list, html_cache = docs_data, docs_html
+    #     template_name, key = "doc_one.html", "doc_number"
     else:
         raise HTTPException(status_code=404, detail="Invalid content type")
 
@@ -190,7 +191,7 @@ def get_content_detail(content_id, content_type):
         "data": content_data,
         "front": front,
         "back": back,
-        key: content_id
+        key: content_id,
     }
     return templates.TemplateResponse(template_name, context)
 
@@ -220,4 +221,4 @@ def doc_detail(doc_id: int):
 
 # 서버 실행 코드
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8003)

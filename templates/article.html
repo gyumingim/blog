@@ -37,51 +37,26 @@
     </header>
     <main>
         <div class="header-container">
-            <a href="/">
-                <span class="nav-link">
-                    👤About
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <a href="award">
-                <span class="nav-link">
-                    🏆Awards
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <a href="work">
-                <span class="nav-link">
-                    💼Works
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <span class="nav-current">
-                📝Article
-            </span>
-            <span class="nav-separator">/</span>
-            <a href="book">
-                <span class="nav-link">
-                    📖Books
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <a href="game">
-                <span class="nav-link">
-                    🎮Games
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <a href="music">
-                <span class="nav-link">
-                    🎵Musics
-                </span>
-            </a>
-            <span class="nav-separator">/</span>
-            <a href="doc">
-                <span class="nav-link">
-                    📚Docs
-                </span>
-            </a>
+            {% set navs = [
+                {"name": "About", "icon": "👤", "url": "/", "key": "about"},
+                {"name": "Awards", "icon": "🏆", "url": "/award", "key": "award"},
+                {"name": "Works", "icon": "💼", "url": "/work", "key": "work"},
+                {"name": "Article", "icon": "📝", "url": "/article", "key": "article"},
+                {"name": "Books", "icon": "📖", "url": "/book", "key": "book"},
+                {"name": "Games", "icon": "🎮", "url": "/game", "key": "game"},
+                {"name": "Musics", "icon": "🎵", "url": "/music", "key": "music"},
+                {"name": "Docs", "icon": "📚", "url": "/doc", "key": "doc"}
+            ] %}
+            {% for nav in navs %}
+                {% if nav.key == header %}
+                    <span class="nav-current">{{ nav.icon }}{{ nav.name }}</span>
+                {% else %}
+                    <a href="{{ nav.url }}">
+                        <span class="nav-link">{{ nav.icon }}{{ nav.name }}</span>
+                    </a>
+                {% endif %}
+                {% if not loop.last %}<span class="nav-separator">/</span>{% endif %}
+            {% endfor %}
         </div>
         <section>
             {% for article in data %}
