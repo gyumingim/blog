@@ -123,57 +123,52 @@ def root():
 
 @app.get("/article")
 def article_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": articles_data, "header": "article"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": articles_data, "header": "article"})
 
 @app.get("/work")
 def work_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": work_data, "header": "work"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": work_data, "header": "work"})
 
 @app.get("/award")
 def award_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": awards_data, "header": "award"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": awards_data, "header": "award"})
 
 @app.get("/book")
 def book_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": books_data, "header": "book"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": books_data, "header": "book"})
 
 @app.get("/game")
 def game_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": games_data, "header": "game"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": games_data, "header": "game"})
 
 @app.get("/music")
 def music_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": musics_data, "header": "music"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": musics_data, "header": "music"})
 
 @app.get("/doc")
 def doc_list():
-    return templates.TemplateResponse("article.html", {"request": {}, "data": docs_data, "header": "doc"})
+    return templates.TemplateResponse("main.html", {"request": {}, "data": docs_data, "header": "doc"})
 
 # 통합된 콘텐츠 상세 페이지 처리 함수
 def get_content_detail(content_id, content_type):
-    if True:
+    if content_type == "article":
         data_list, html_cache = articles_data, articles_html
-        template_name, key = "article_one.html", "article_number"
-    # elif content_type == "work":
-    #     data_list, html_cache = work_data, work_html
-    #     template_name, key = "work_one.html", "work_number"
-    # elif content_type == "award":
-    #     data_list, html_cache = awards_data, awards_html
-    #     template_name, key = "award_one.html", "award_number"
-    # elif content_type == "book":
-    #     data_list, html_cache = books_data, books_html
-    #     template_name, key = "book_one.html", "book_number"
-    # elif content_type == "game":
-    #     data_list, html_cache = games_data, games_html
-    #     template_name, key = "game_one.html", "game_number"
-    # elif content_type == "music":
-    #     data_list, html_cache = musics_data, musics_html
-    #     template_name, key = "music_one.html", "music_number"
-    # elif content_type == "doc":
-    #     data_list, html_cache = docs_data, docs_html
-    #     template_name, key = "doc_one.html", "doc_number"
+    elif content_type == "work":
+        data_list, html_cache = work_data, work_html
+    elif content_type == "award":
+        data_list, html_cache = awards_data, awards_html
+    elif content_type == "book":
+        data_list, html_cache = books_data, books_html
+    elif content_type == "game":
+        data_list, html_cache = games_data, games_html
+    elif content_type == "music":
+        data_list, html_cache = musics_data, musics_html
+    elif content_type == "doc":
+        data_list, html_cache = docs_data, docs_html
     else:
         raise HTTPException(status_code=404, detail="Invalid content type")
+    template_name = "main_one.html"
+    key = "main_number"
 
     content_data = next((item for item in data_list if item['id'] == content_id), None)
     if content_data is None:
@@ -185,6 +180,9 @@ def get_content_detail(content_id, content_type):
 
     html = html_cache.get(content_id, "<p>컨텐츠를 찾을 수 없습니다.</p>")
 
+    # 썸네일 정보 추출
+    thumbnail = content_data.get('thumbnail') if content_data else None
+
     context = {
         "request": {},
         "html": html,
@@ -192,6 +190,7 @@ def get_content_detail(content_id, content_type):
         "front": front,
         "back": back,
         key: content_id,
+        "thumbnail": thumbnail,
     }
     return templates.TemplateResponse(template_name, context)
 

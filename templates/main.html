@@ -61,7 +61,7 @@
         <section>
             {% for article in data %}
             <div class="container">
-                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="article/{{ article.id }}" class="link">
+                <a style="display: block; padding-bottom:0.2rem; padding-top:0.2rem" href="{{ header }}/{{ article.id }}" class="link">
                     <span>
                         <b>{{ article.title }}:</b>
                     </span>
