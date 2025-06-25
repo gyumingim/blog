@@ -29,6 +29,69 @@
     <!-- and it's easy to individually load additional languages --> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script> 
     <script>hljs.highlightAll();</script>
+    <style>
+        .toc-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 240px;
+            max-height: 70vh;
+            overflow-y: auto;
+            background: none;
+            border-left: 2px solid #e0e0e0;
+            border-radius: 0;
+            padding: 0 0 0 18px;
+            box-shadow: none;
+            z-index: 1000;
+            font-size: 15px;
+            color: #767676;
+        }
+        .toc-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #767676;
+            border: none;
+            padding-bottom: 0;
+            font-size: 15px;
+        }
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .toc-list li {
+            margin: 2px 0;
+        }
+        .toc-list a {
+            text-decoration: none;
+            color: #767676;
+            font-size: 15px;
+            line-height: 1.5;
+            display: block;
+            padding: 0;
+            background: none;
+            transition: color 0.2s;
+        }
+        .toc-list a:hover {
+            color: #222;
+        }
+        .toc-list a.active {
+            color: #222;
+            font-weight: 700;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        .toc-h1 { padding-left: 0px; font-weight: 600; }
+        .toc-h2 { padding-left: 16px; font-weight: 400; }
+        .toc-h3 { padding-left: 32px; font-size: 14px; font-weight: 400; }
+        .main-content {
+            margin-right: 260px;
+        }
+        @media (max-width: 1200px) {
+            .toc-container { display: none; }
+            .main-content { margin-right: 0; }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -39,7 +102,16 @@
             </a>
         </nav>
     </header>
-    <main style="margin: 1rem auto;">
+    
+    <!-- 목차 컨테이너 -->
+    <div class="toc-container" id="toc">
+        <div class="toc-title">목차</div>
+        <ul class="toc-list" id="toc-list">
+            <!-- JavaScript로 동적 생성 -->
+        </ul>
+    </div>
+    
+    <main class="main-content" style="margin: 1rem auto;">
         <div style="margin-bottom: 1rem;">
             <a href="/article">
                 <span style="margin-bottom: .5rem; ">
@@ -101,5 +173,76 @@
     <footer style="font-size: .8rem; color: #767676;">
         © 2025 김규민
     </footer>
+    
+    <script>
+        // 목차 생성 함수
+        function generateTOC() {
+            const tocList = document.getElementById('toc-list');
+            const main = document.querySelector('.main-content');
+            if (!main) return;
+            const headings = main.querySelectorAll('h2');
+            if (headings.length === 0) {
+                document.getElementById('toc').style.display = 'none';
+                return;
+            }
+            headings.forEach((heading, index) => {
+                if (!heading.id) heading.id = `heading-${index}`;
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${heading.id}`;
+                a.textContent = heading.textContent;
+                a.className = `toc-${heading.tagName.toLowerCase()}`;
+                a.setAttribute('data-toc-id', heading.id);
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.getElementById(heading.id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const headingsArr = Array.from(headings);
+
+            function setActiveByScroll() {
+                let minTop = Infinity;
+                let topHeading = null;
+                headingsArr.forEach(h => {
+                    const rect = h.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < minTop) {
+                        minTop = rect.top;
+                        topHeading = h;
+                    }
+                });
+                // 모두 위로 지나간 경우(=top < 0만 있을 때) 가장 아래에 있는 heading을 active
+                if (!topHeading) {
+                    let maxTop = -Infinity;
+                    headingsArr.forEach(h => {
+                        const rect = h.getBoundingClientRect();
+                        if (rect.top < 0 && rect.top > maxTop) {
+                            maxTop = rect.top;
+                            topHeading = h;
+                        }
+                    });
+                }
+                // headings가 1개만 있어도 항상 active
+                if (!topHeading && headingsArr.length > 0) {
+                    topHeading = headingsArr[0];
+                }
+                tocLinks.forEach(link => link.classList.remove('active'));
+                if (topHeading) {
+                    const tocLink = document.querySelector(`.toc-list a[data-toc-id='${topHeading.id}']`);
+                    if (tocLink) tocLink.classList.add('active');
+                }
+            }
+
+            window.addEventListener('scroll', setActiveByScroll);
+            setActiveByScroll();
+        }
+        document.addEventListener('DOMContentLoaded', generateTOC);
+    </script>
 </body>
 </html>
