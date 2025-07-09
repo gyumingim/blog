@@ -220,4 +220,4 @@ def doc_detail(doc_id: int):
 
 # 서버 실행 코드
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8003)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
