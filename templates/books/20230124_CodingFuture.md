@@ -1,6 +1,6 @@
 ---
 id: 1
-title: "[독서] 코딩의 미래"
+title: "[3.0] 코딩의 미래"
 subtitle: "홍전일"
 date: "2023.01.24"
 thumbnail: "코딩의미래.webp"
