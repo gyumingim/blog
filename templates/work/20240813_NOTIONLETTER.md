@@ -3,7 +3,7 @@ id: 5
 title: "[프젝] Notion Letter"
 subtitle: "전하지 못한 러브레터"
 date: "2024.08.13"
-thumbnail: ""
+thumbnail: "LETTER1.png"
 ---
 #
 <img src="../../static/image/LETTER1.png" height="350px">

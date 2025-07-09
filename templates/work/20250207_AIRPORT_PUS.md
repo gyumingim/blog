@@ -3,7 +3,7 @@ id: 7
 title: "[프젝] Airport PUS"
 subtitle: "김해국제공항 실시간 모니터링 웹사이트"
 date: "2025.04.07 ⭐"
-thumbnail: ""
+thumbnail: "Airport1.png"
 ---
 | <img src="../../static/image/Airport1.png" height="250px" alt="WESEE2" /> | <img src="../../static/image/Airport2.png" height="250px" alt="WESEE3" /> |
 |:---|:---|

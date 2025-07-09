@@ -3,7 +3,7 @@ id: 1
 title: "[프젝] RouseSong"
 subtitle: "기숙사 기상송 투표 사이트"
 date: "2023.04.04"
-thumbnail: ""
+thumbnail: "Rouse1.png"
 ---
 #
 <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
